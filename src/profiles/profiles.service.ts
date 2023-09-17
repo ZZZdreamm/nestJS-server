@@ -84,4 +84,18 @@ export class ProfilesService {
         return { statusCode: 200 };
       });
   }
+
+  async getUserImage(username: string) {
+    let image: string;
+    const usersCollection = this.firebase.firestore.collection('Users');
+    await usersCollection.get().then((querySnapshot: any) => {
+      querySnapshot.forEach((user: any) => {
+        const data = user.data();
+        if (data.Email == username) {
+          image = data.ProfileImage;
+        }
+      });
+    });
+    return image;
+  }
 }

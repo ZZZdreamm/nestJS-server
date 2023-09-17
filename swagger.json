@@ -153,6 +153,27 @@
           "profiles"
         ]
       }
+    },
+    "/posts/all/{id}": {
+      "get": {
+        "operationId": "PostsController_getAll",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "posts"
+        ]
+      }
     }
   },
   "info": {
