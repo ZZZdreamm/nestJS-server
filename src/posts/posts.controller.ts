@@ -10,7 +10,7 @@ export class PostsController {
 
   @Get('/all/:id')
   @ApiParam({ name: 'id' })
-  getAll(@Param() params) {
-    return this.postsService.getSomeNewest(+params.id);
+  getAll(@Param('id') id: string) {
+    return this.postsService.getSomeNewest(+id);
   }
 }
