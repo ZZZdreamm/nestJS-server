@@ -3,7 +3,7 @@ import { Column, PrimaryGeneratedColumn } from "typeorm";
 
 export interface PostAttributes {
   Id: string;
-  AutorName: string;
+  AutorId: string;
   Date: number;
   MediaFiles: string[];
   Text: string;
@@ -18,7 +18,7 @@ export class Post implements PostAttributes {
 
   @Column()
   @ApiProperty()
-  AutorName: string;
+  AutorId: string;
 
   @Column()
   @ApiProperty()
