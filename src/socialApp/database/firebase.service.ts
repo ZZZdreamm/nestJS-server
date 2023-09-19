@@ -29,6 +29,8 @@ export class FirebaseService {
           'socialApp',
         )
         .firestore();
+    } else {
+      this.firestore = admin.app('socialApp').firestore();
     }
   }
 
