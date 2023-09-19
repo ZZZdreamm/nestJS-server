@@ -1,16 +1,91 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { PostsService } from './posts.service';
-import { ApiParam, ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiParam, ApiTags } from '@nestjs/swagger';
 import { PostDto } from './dto/postDto';
+import { PostCreateDto } from './dto/postCreateDto';
+import { UpdatePostDto } from './dto/updatePostDto';
 
 @ApiTags('posts')
 @Controller('posts')
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
-  @Get('/all/:id')
-  @ApiParam({ name: 'id' })
-  getAll(@Param('id') id: string) {
-    return this.postsService.getSomeNewest(+id);
+  @Get('/all/:numberOfPosts')
+  @ApiParam({ name: 'numberOfPosts' })
+  getAll(@Param('numberOfPosts') numberOfPosts: string) {
+    return this.postsService.getSomeNewest(+numberOfPosts);
+  }
+
+  @Post('/create')
+  @ApiOkResponse({
+    description: 'Create post',
+    type: PostDto,
+  })
+  create(@Body() post: PostCreateDto) {
+    return this.postsService.create(post);
+  }
+
+  @Patch('/like')
+  @ApiOkResponse({
+    description: 'Like post',
+  })
+  likePost(@Query('postId') postId: string, @Query('userId') userId: string) {
+    return this.postsService.likePost(postId, userId);
+  }
+
+  @Patch('/removeLike')
+  @ApiOkResponse({
+    description: 'Remove like from post',
+  })
+  removeLikePost(
+    @Query('postId') postId: string,
+    @Query('userId') userId: string,
+  ) {
+    return this.postsService.removeLike(postId, userId);
+  }
+
+  @Get('/ifUserLiked')
+  @ApiOkResponse({
+    description: 'Check if post is liked',
+  })
+  ifLiked(@Query('postId') postId: string, @Query('userId') userId: string) {
+    return this.postsService.ifUserLiked(postId, userId);
+  }
+
+  @Get('/userPosts/:username')
+  @ApiParam({ name: 'username' })
+  @ApiOkResponse({
+    description: 'Get user posts',
+  })
+  getUserPosts(
+    @Param('username') username: string,
+    @Query('amount') amount: string,
+  ) {
+    return this.postsService.getPostsOfUser(username, +amount);
+  }
+
+  @Delete('/delete')
+  @ApiOkResponse({
+    description: 'Delete post',
+  })
+  deletePost(@Query('postId') postId: string) {
+    return this.postsService.deletePost(postId);
+  }
+
+  @Patch('/update')
+  @ApiOkResponse({
+    description: 'Update post',
+  })
+  updatePost(@Body() post: UpdatePostDto) {
+    return this.postsService.updatePost(post);
   }
 }
