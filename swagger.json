@@ -881,6 +881,29 @@
           "messages"
         ]
       }
+    },
+    "/news/all": {
+      "get": {
+        "operationId": "NewsController_getAll",
+        "parameters": [
+          {
+            "name": "searchQuery",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "news"
+        ]
+      }
     }
   },
   "info": {
