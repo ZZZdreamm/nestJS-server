@@ -1,4 +1,3 @@
-import { Optional } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 import { Column } from 'typeorm';
 import { IsNotEmpty, IsOptional } from 'class-validator';
