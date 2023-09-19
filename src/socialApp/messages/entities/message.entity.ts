@@ -1,5 +1,4 @@
 import { MessageResponseDto } from '../dto/messageResponseDto';
-import { Optional } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
@@ -17,6 +16,8 @@ export interface MessageAttributes {
   ResponseTo: MessageResponseDto;
 }
 
+
+@Entity()
 export class Message implements MessageAttributes {
   @PrimaryGeneratedColumn()
   @ApiProperty()

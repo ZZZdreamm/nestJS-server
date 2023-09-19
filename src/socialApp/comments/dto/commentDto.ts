@@ -21,5 +21,5 @@ export class CommentDto {
 
   @Column()
   @ApiProperty()
-  Date: Date;
+  Date: number;
 }

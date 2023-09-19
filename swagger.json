@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "paths": {
-    "/profiles/{id}": {
+    "/profiles/one/{id}": {
       "get": {
         "operationId": "ProfilesController_getProfile",
         "parameters": [
@@ -31,7 +31,7 @@
         ]
       }
     },
-    "/profiles/email/{query}": {
+    "/profiles/search/{query}": {
       "get": {
         "operationId": "ProfilesController_getAllProfilesByEmail",
         "parameters": [
@@ -193,44 +193,8 @@
       }
     },
     "/profiles/acceptFriendRequest": {
-      "post": {
-        "operationId": "ProfilesController_acceptFriendRequest",
-        "parameters": [
-          {
-            "name": "userId",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "friendId",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Accept friend request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProfileDto"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "profiles"
-        ]
-      },
       "patch": {
-        "operationId": "ProfilesController_removeFriendRequest",
+        "operationId": "ProfilesController_acceptFriendRequest",
         "parameters": [
           {
             "name": "userId",
@@ -382,6 +346,44 @@
         ]
       }
     },
+    "/profiles/removeFriendRequest": {
+      "delete": {
+        "operationId": "ProfilesController_removeFriendRequest",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "friendId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Remove friend request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "profiles"
+        ]
+      }
+    },
     "/profiles/deleteFriendRequest": {
       "delete": {
         "operationId": "ProfilesController_deleteFriendRequest",
@@ -415,7 +417,7 @@
     },
     "/profiles/getFriendRequests/{userId}": {
       "get": {
-        "operationId": "ProfilesController_getFriendRequests",
+        "operationId": "ProfilesController_getFriendsRequests",
         "parameters": [
           {
             "name": "userId",

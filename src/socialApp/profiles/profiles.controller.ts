@@ -23,7 +23,7 @@ import { UpdateProfileDto } from './dto/updateProfileDto';
 export class ProfilesController {
   constructor(private readonly profilesService: ProfilesService) {}
 
-  @Get(':id')
+  @Get('/one/:id')
   @ApiOkResponse({
     description: 'Get profile',
     type: ProfileDto,
@@ -33,7 +33,7 @@ export class ProfilesController {
     return this.profilesService.getProfile(id);
   }
 
-  @Get('/email/:query')
+  @Get('/search/:query')
   @ApiOkResponse({
     description: 'Get profile by email query',
     type: ProfileDto,
@@ -86,7 +86,7 @@ export class ProfilesController {
     return this.profilesService.sendFriendRequest(userId, friendId);
   }
 
-  @Post('/acceptFriendRequest')
+  @Patch('/acceptFriendRequest')
   @ApiOkResponse({
     description: 'Accept friend request',
     type: ProfileDto,
@@ -137,16 +137,16 @@ export class ProfilesController {
     return this.profilesService.removeFriend(userId, friendId);
   }
 
-  @Patch('/acceptFriendRequest')
+  @Delete('/removeFriendRequest')
   @ApiOkResponse({
-    description: 'Accept friend request',
+    description: 'Remove friend request',
     type: ProfileDto,
   })
   removeFriendRequest(
     @Query('userId') userId: string,
     @Query('friendId') friendId: string,
   ) {
-    return this.profilesService.acceptFriendRequest(userId, friendId);
+    return this.profilesService.removeFriendRequest(userId, friendId);
   }
 
   @Delete('/deleteFriendRequest')
@@ -165,7 +165,7 @@ export class ProfilesController {
     description: 'Get friend requests',
   })
   @ApiParam({ name: 'userId' })
-  getFriendRequests(@Param('userId') userId: string) {
+  getFriendsRequests(@Param('userId') userId: string) {
     return this.profilesService.getFriendsRequests(userId);
   }
 

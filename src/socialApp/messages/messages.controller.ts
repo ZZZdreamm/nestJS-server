@@ -25,7 +25,6 @@ export class MessagesController {
     @Query('friendId') friendId: string,
     @Query('amount') amount: string,
   ) {
-    console.log(userId, friendId, amount)
     return this.messagesService.getChatMessages(userId, friendId, +amount);
   }
 

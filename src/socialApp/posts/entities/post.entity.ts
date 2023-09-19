@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Column, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 export interface PostAttributes {
   Id: string;
@@ -11,6 +11,7 @@ export interface PostAttributes {
   AmountOfComments: number;
 }
 
+@Entity()
 export class Post implements PostAttributes {
   @PrimaryGeneratedColumn()
   @ApiProperty()

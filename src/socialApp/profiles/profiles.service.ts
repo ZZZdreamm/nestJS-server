@@ -15,7 +15,8 @@ export class ProfilesService {
 
   async create(createProfileDto: CreateProfileDto) {
     let createdProfile: Profile;
-    await this.firebaseService.getFirestore()
+    await this.firebaseService
+      .getFirestore()
       .collection('Users')
       .add(createProfileDto)
       .then((res) => {
@@ -31,7 +32,8 @@ export class ProfilesService {
       Email: '',
       ProfileImage: '',
     };
-    const usersCollectionData = await this.firebaseService.getFirestore()
+    const usersCollectionData = await this.firebaseService
+      .getFirestore()
       .collection('Users')
       .get();
     usersCollectionData.forEach((snapshot) => {
@@ -50,17 +52,22 @@ export class ProfilesService {
   }
 
   async getProfile(id: string): Promise<ProfileDto> {
-    const usersCollection = this.firebaseService.getFirestore().collection('Users');
+    const usersCollection = this.firebaseService
+      .getFirestore()
+      .collection('Users');
     const profileData = (await usersCollection.doc(id).get()).data();
     return {
       Id: id,
-      Email: profileData.Email,
-      ProfileImage: profileData.ProfileImage,
+      Email: profileData?.Email,
+      ProfileImage: profileData?.ProfileImage,
     };
   }
 
   async getAllProfilesByEmail(query: string): Promise<ProfileDto[]> {
-    const snapshot = await this.firebaseService.getFirestore().collection('Users').get();
+    const snapshot = await this.firebaseService
+      .getFirestore()
+      .collection('Users')
+      .get();
     let profiles: ProfileDto[] = [];
     snapshot.forEach((shot) => {
       const user = shot.data();
@@ -77,7 +84,9 @@ export class ProfilesService {
 
   async update(profileDto: UpdateProfileDto) {
     const { Id, ...restOfProfile } = profileDto;
-    const usersCollection = this.firebaseService.getFirestore().collection('Users');
+    const usersCollection = this.firebaseService
+      .getFirestore()
+      .collection('Users');
     return await usersCollection
       .doc(Id)
       .update({ ...restOfProfile })
@@ -88,7 +97,9 @@ export class ProfilesService {
 
   async getUserImage(username: string) {
     let image: string = '';
-    const usersCollection = this.firebaseService.getFirestore().collection('Users');
+    const usersCollection = this.firebaseService
+      .getFirestore()
+      .collection('Users');
     await usersCollection.get().then((querySnapshot: any) => {
       querySnapshot.forEach((user: any) => {
         const data = user.data();
@@ -101,17 +112,20 @@ export class ProfilesService {
   }
 
   async sendFriendRequest(userId: string, friendId: string) {
-    const userRef = this.firebaseService.getFirestore()
+    const userRef = this.firebaseService
+      .getFirestore()
       .collection('Users')
       .doc(userId)
       .collection('SentFriendRequests');
-    const friendRef = this.firebaseService.getFirestore()
+    const friendRef = this.firebaseService
+      .getFirestore()
       .collection('Users')
       .doc(friendId)
       .collection('FriendRequests');
     userRef.doc(friendId).set({});
     friendRef.doc(userId).set({});
-    const friendDoc = await this.firebaseService.getFirestore()
+    const friendDoc = await this.firebaseService
+      .getFirestore()
       .collection('Users')
       .doc(friendId)
       .get();
@@ -156,7 +170,8 @@ export class ProfilesService {
   }
 
   async getFriendsRequests(userId: string) {
-    const userRef = this.firebaseService.getFirestore()
+    const userRef = this.firebaseService
+      .getFirestore()
       .collection('Users')
       .doc(userId)
       .collection('FriendRequests');
@@ -165,7 +180,8 @@ export class ProfilesService {
   }
 
   async getSentFriendRequests(userId: string) {
-    const usersRef = this.firebaseService.getFirestore()
+    const usersRef = this.firebaseService
+      .getFirestore()
       .collection('Users')
       .doc(userId)
       .collection('SentFriendRequests');
@@ -195,7 +211,8 @@ export class ProfilesService {
   // }
 
   async getFriends(userId: string) {
-    const usersRef = this.firebaseService.getFirestore()
+    const usersRef = this.firebaseService
+      .getFirestore()
       .collection('Users')
       .doc(userId)
       .collection('Friends');
@@ -233,7 +250,10 @@ export class ProfilesService {
   }
 
   async checkIfInFriends(userId: string, friendId: string) {
-    const userRef = this.firebaseService.getFirestore().collection('Users').doc(userId);
+    const userRef = this.firebaseService
+      .getFirestore()
+      .collection('Users')
+      .doc(userId);
     if (userId == friendId) {
       return 'me';
     }

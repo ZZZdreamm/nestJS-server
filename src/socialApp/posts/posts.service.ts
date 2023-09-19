@@ -84,6 +84,13 @@ export class PostsService {
       doc.ref.delete();
       deleted = true;
     });
+    if(!deleted) return false;
+    await postRef.get().then(async (doc) => {
+      const likes = await doc.data()?.AmountOfLikes;
+      await postRef.update({
+        AmountOfLikes: likes - 1,
+      });
+    });
     return deleted;
   }
 

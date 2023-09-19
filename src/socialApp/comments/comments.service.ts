@@ -12,26 +12,37 @@ export class CommentsService {
     @Inject(forwardRef(() => FirebaseService))
     private readonly firebaseService: FirebaseService,
   ) {}
-  async create(commentCreateDto: CommentCreateDto) {
+  async create(commentCreateDto: CommentCreateDto): Promise<CommentDto> {
     const { PostId, ...comment } = commentCreateDto;
-    const postRef = this.firebaseService.getFirestore().collection('Posts').doc(PostId);
+    const postRef = this.firebaseService
+      .getFirestore()
+      .collection('Posts')
+      .doc(PostId);
     const commentsRef = postRef.collection('Comments');
     const postDoc = await postRef.get();
     await postRef.update({
       AmountOfComments: postDoc.data()?.AmountOfComments + 1,
     });
     const commentDoc = await commentsRef.add(comment);
-    return {
+    const user = await this.profilesService.getProfile(comment.UserId);
+    const commentDto = {
       Id: commentDoc.id,
-      ...commentCreateDto,
+      AutorName: user.Email,
+      AutorProfileImage: user.ProfileImage,
+      PostId: PostId,
+      TextContent: comment.TextContent,
+      Date: comment.Date,
     };
+    return commentDto;
   }
 
   async getSomeNewest(amount: number, postId: string) {
-    const commentsRef = this.firebaseService.getFirestore()
+    const commentsRef = this.firebaseService
+      .getFirestore()
       .collection('Posts')
       .doc(postId)
-      .collection('Comments');
+      .collection('Comments')
+      .orderBy('Date', 'desc');
     const commentsDocs = (await commentsRef.limit(amount).get()).docs;
     let comments: CommentDto[] = [];
     const promises = commentsDocs.map(async (doc) => {
