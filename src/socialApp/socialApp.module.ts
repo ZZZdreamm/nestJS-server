@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { FirebaseModule } from 'nestjs-firebase';
 import { PostsController } from './posts/posts.controller';
 import { PostsService } from './posts/posts.service';
 import { PostsModule } from './posts/posts.module';
@@ -10,23 +9,20 @@ import { MessagesController } from './messages/messages.controller';
 import { MessagesService } from './messages/messages.service';
 import { MessagesModule } from './messages/messages.module';
 import { FirebaseService } from './database/firebase.service';
-import { FirebaseModule as fb } from './database/firebase.module';
+import { FirebaseModule } from './database/firebase.module';
 import { ProfilesModule } from './profiles/profiles.module';
 import { ProfilesController } from './profiles/profiles.controller';
 import { ProfilesService } from './profiles/profiles.service';
 
 @Module({
   imports: [
-    FirebaseModule.forRoot({
-      googleApplicationCredential: 'socialAppFirebaseCredentials.json',
-    }),
-    fb,
+    FirebaseModule,
     ProfilesModule,
     PostsModule,
     CommentsModule,
     MessagesModule,
   ],
-  exports: [FirebaseModule, fb],
+  exports: [FirebaseModule],
   controllers: [
     ProfilesController,
     PostsController,

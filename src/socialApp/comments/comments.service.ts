@@ -1,5 +1,4 @@
 import { Inject, Injectable, forwardRef } from '@nestjs/common';
-import { FirebaseAdmin, InjectFirebaseAdmin } from 'nestjs-firebase';
 import { CommentCreateDto } from './dto/commentCreateDto';
 import { CommentDto } from './dto/commentDto';
 import { ProfilesService } from '../profiles/profiles.service';
@@ -8,7 +7,6 @@ import { FirebaseService } from '../database/firebase.service';
 @Injectable()
 export class CommentsService {
   constructor(
-    @InjectFirebaseAdmin() private readonly firebase: FirebaseAdmin,
     @Inject(forwardRef(() => ProfilesService))
     private readonly profilesService: ProfilesService,
     @Inject(forwardRef(() => FirebaseService))
@@ -16,7 +14,7 @@ export class CommentsService {
   ) {}
   async create(commentCreateDto: CommentCreateDto) {
     const { PostId, ...comment } = commentCreateDto;
-    const postRef = this.firebase.firestore.collection('Posts').doc(PostId);
+    const postRef = this.firebaseService.getFirestore().collection('Posts').doc(PostId);
     const commentsRef = postRef.collection('Comments');
     const postDoc = await postRef.get();
     await postRef.update({
@@ -30,7 +28,7 @@ export class CommentsService {
   }
 
   async getSomeNewest(amount: number, postId: string) {
-    const commentsRef = this.firebase.firestore
+    const commentsRef = this.firebaseService.getFirestore()
       .collection('Posts')
       .doc(postId)
       .collection('Comments');

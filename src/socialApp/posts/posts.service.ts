@@ -1,14 +1,15 @@
 import { Inject, Injectable, forwardRef } from '@nestjs/common';
-import { FirebaseAdmin, InjectFirebaseAdmin } from 'nestjs-firebase';
 import { PostDto } from './dto/postDto';
 import { PostCreateDto } from './dto/postCreateDto';
 import { UpdatePostDto } from './dto/updatePostDto';
 import { ProfilesService } from '../profiles/profiles.service';
+import { FirebaseService } from '../database/firebase.service';
 
 @Injectable()
 export class PostsService {
   constructor(
-    @InjectFirebaseAdmin() private readonly firebase: FirebaseAdmin,
+    @Inject(forwardRef(() => FirebaseService))
+    private readonly firebaseService: FirebaseService,
     @Inject(forwardRef(() => ProfilesService))
     private readonly profilesService: ProfilesService,
   ) {}
@@ -19,14 +20,14 @@ export class PostsService {
       AmountOfLikes: 0,
       ...post,
     };
-    const postsCollection = this.firebase.firestore.collection('Posts');
+    const postsCollection = this.firebaseService.getFirestore().collection('Posts');
     const newPost = await postsCollection.add(fullPost);
     const autorImage = await this.profilesService.getUserImage(post.AutorName);
     return { Id: newPost.id, AutorProfileImage: autorImage, ...fullPost };
   }
 
   async getSomeNewest(numberOfPosts: number) {
-    const postsCollection = this.firebase.firestore.collection('Posts');
+    const postsCollection = this.firebaseService.getFirestore().collection('Posts');
 
     const query = postsCollection.limit(numberOfPosts);
     let posts: PostDto[] = [];
@@ -51,7 +52,7 @@ export class PostsService {
   }
 
   async likePost(postId: string, userId: string) {
-    const postRef = this.firebase.firestore.collection('Posts').doc(postId);
+    const postRef = this.firebaseService.getFirestore().collection('Posts').doc(postId);
     const ifAlreadyLiked = await postRef
       .collection('Likes')
       .where('UserId', '==', userId)
@@ -73,7 +74,7 @@ export class PostsService {
   }
 
   async removeLike(postId: string, userId: string) {
-    const postRef = this.firebase.firestore.collection('Posts').doc(postId);
+    const postRef = this.firebaseService.getFirestore().collection('Posts').doc(postId);
     let deleted = false;
     const docs = await postRef
       .collection('Likes')
@@ -87,7 +88,7 @@ export class PostsService {
   }
 
   async ifUserLiked(postId: string, userId: string) {
-    const likesRef = this.firebase.firestore
+    const likesRef = this.firebaseService.getFirestore()
       .collection('Posts')
       .doc(postId)
       .collection('Likes');
@@ -104,7 +105,7 @@ export class PostsService {
   }
 
   async getPostsOfUser(username: string, numberOfPosts: number) {
-    const postsRef = this.firebase.firestore.collection('Posts');
+    const postsRef = this.firebaseService.getFirestore().collection('Posts');
     const query = postsRef
       .where('AutorName', '==', username)
       .limit(numberOfPosts);
@@ -132,7 +133,7 @@ export class PostsService {
 
   async deletePost(postId: string) {
     try {
-      const postRef = this.firebase.firestore.collection('Posts').doc(postId);
+      const postRef = this.firebaseService.getFirestore().collection('Posts').doc(postId);
       await postRef.delete();
     } catch (err) {
       return 'error';
@@ -142,7 +143,7 @@ export class PostsService {
 
   async updatePost(post: UpdatePostDto) {
     try {
-      const postRef = this.firebase.firestore.collection('Posts').doc(post.Id);
+      const postRef = this.firebaseService.getFirestore().collection('Posts').doc(post.Id);
       await postRef.update({
         TextContent: post.TextContent,
         MediaFiles: post.MediaFiles,

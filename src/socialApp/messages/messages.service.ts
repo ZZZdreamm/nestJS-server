@@ -1,16 +1,17 @@
-import { Injectable } from '@nestjs/common';
-import { FirebaseAdmin, InjectFirebaseAdmin } from 'nestjs-firebase';
+import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { MessageCreateDto } from './dto/messageCreateDto';
 import { MessageDto } from './dto/messageDto';
+import { FirebaseService } from '../database/firebase.service';
 
 @Injectable()
 export class MessagesService {
   constructor(
-    @InjectFirebaseAdmin() private readonly firebase: FirebaseAdmin,
+    @Inject(forwardRef(() => FirebaseService))
+    private readonly firebaseService: FirebaseService,
   ) {}
 
   async create(message: MessageCreateDto) {
-    const usersFireStore = this.firebase.firestore.collection('Users');
+    const usersFireStore = this.firebaseService.getFirestore().collection('Users');
     if (
       message.MediaFiles.length <= 0 &&
       !message.TextContent &&
@@ -50,7 +51,7 @@ export class MessagesService {
     friendId: string,
     numberOfMessages: number,
   ) {
-    const usersFireStore = this.firebase.firestore.collection('Users');
+    const usersFireStore = this.firebaseService.getFirestore().collection('Users');
     const query = usersFireStore
       .doc(userId)
       .collection('Messages')
@@ -76,7 +77,7 @@ export class MessagesService {
   }
 
   async delete(userId: string, friendId: string, messageId: string) {
-    const usersFireStore = this.firebase.firestore.collection('Users');
+    const usersFireStore = this.firebaseService.getFirestore().collection('Users');
     await usersFireStore
       .doc(userId)
       .collection('Messages')
@@ -98,7 +99,7 @@ export class MessagesService {
     friendId: string,
     messageId: string,
   ) {
-    const usersFireStore = this.firebase.firestore.collection('Users');
+    const usersFireStore = this.firebaseService.getFirestore().collection('Users');
     const query = usersFireStore
       .doc(userId)
       .collection('Messages')
