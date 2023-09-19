@@ -1,9 +1,9 @@
 import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { FirebaseAdmin, InjectFirebaseAdmin } from 'nestjs-firebase';
 import { PostDto } from './dto/postDto';
-import { ProfilesService } from 'src/profiles/profiles.service';
 import { PostCreateDto } from './dto/postCreateDto';
 import { UpdatePostDto } from './dto/updatePostDto';
+import { ProfilesService } from '../profiles/profiles.service';
 
 @Injectable()
 export class PostsService {

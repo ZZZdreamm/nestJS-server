@@ -1,8 +1,9 @@
 import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { FirebaseAdmin, InjectFirebaseAdmin } from 'nestjs-firebase';
 import { CommentCreateDto } from './dto/commentCreateDto';
-import { ProfilesService } from 'src/profiles/profiles.service';
 import { CommentDto } from './dto/commentDto';
+import { ProfilesService } from '../profiles/profiles.service';
+import { FirebaseService } from '../database/firebase.service';
 
 @Injectable()
 export class CommentsService {
@@ -10,6 +11,8 @@ export class CommentsService {
     @InjectFirebaseAdmin() private readonly firebase: FirebaseAdmin,
     @Inject(forwardRef(() => ProfilesService))
     private readonly profilesService: ProfilesService,
+    @Inject(forwardRef(() => FirebaseService))
+    private readonly firebaseService: FirebaseService,
   ) {}
   async create(commentCreateDto: CommentCreateDto) {
     const { PostId, ...comment } = commentCreateDto;

@@ -17,7 +17,6 @@ import { Profile } from './entities/profile.entity';
 import { UserCredentials } from './dto/userCredentials';
 import { ProfileDto } from './dto/profileDto';
 import { UpdateProfileDto } from './dto/updateProfileDto';
-import { query } from 'express';
 
 @ApiTags('profiles')
 @Controller('profiles')
@@ -41,6 +40,7 @@ export class ProfilesController {
   })
   @ApiParam({ name: 'query' })
   getAllProfilesByEmail(@Param('query') query: string): Promise<ProfileDto[]> {
+    console.log(process.env);
     return this.profilesService.getAllProfilesByEmail(query);
   }
 

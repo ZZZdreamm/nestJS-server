@@ -1,7 +1,8 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { PostsController } from './posts.controller';
-import { ProfilesModule } from 'src/profiles/profiles.module';
+import { ProfilesModule } from '../profiles/profiles.module';
+
 
 @Module({
   controllers: [PostsController],

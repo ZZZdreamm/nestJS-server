@@ -1,15 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { FirebaseAdmin, InjectFirebaseAdmin } from 'nestjs-firebase';
 import { CreateProfileDto } from './dto/createProfileDto';
 import { Profile } from './entities/profile.entity';
 import { UserCredentials } from './dto/userCredentials';
 import { ProfileDto } from './dto/profileDto';
 import { UpdateProfileDto } from './dto/updateProfileDto';
+import { FirebaseService } from '../database/firebase.service';
 
 @Injectable()
 export class ProfilesService {
   constructor(
     @InjectFirebaseAdmin() private readonly firebase: FirebaseAdmin,
+    @Inject(forwardRef(() => FirebaseService))
+    private readonly firebaseService: FirebaseService,
   ) {}
 
   async create(createProfileDto: CreateProfileDto) {
