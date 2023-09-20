@@ -31,6 +31,8 @@ export class FirebaseService {
           'cacarrot',
         )
         .database();
+    } else {
+      this.database = admin.app('cacarrot').database();
     }
   }
 
