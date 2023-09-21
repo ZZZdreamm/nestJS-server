@@ -10,4 +10,4 @@ import { UsersService } from './users.service';
   imports: [forwardRef(() => FirebaseModule)],
   exports: [],
 })
-export class ProfilesModule {}
+export class UsersModule {}

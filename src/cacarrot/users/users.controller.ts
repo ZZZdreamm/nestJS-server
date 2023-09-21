@@ -1,15 +1,28 @@
-import { Body, Controller, Post, Query } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Query,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
+import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { UsersService } from './users.service';
 import { UserCredentials } from './dto/userCredentials';
 import { createWebToken } from '../auth/jwtToken';
 
-@ApiTags('cacarrot/users')
-@Controller('cacarrot/users')
+@ApiTags('cacarrot')
+@Controller('cacarrot')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post('/login')
+  @ApiOkResponse({
+    description: 'Login',
+    type: UserCredentials,
+  })
+  @UsePipes(ValidationPipe)
   async login(@Body() userCredentials: UserCredentials) {
     const user = await this.usersService.login(userCredentials);
     if (user.Id) {
@@ -21,6 +34,11 @@ export class UsersController {
   }
 
   @Post('/register')
+  @ApiOkResponse({
+    description: 'Register',
+    type: UserCredentials,
+  })
+  @UsePipes(ValidationPipe)
   async register(@Body() userCredentials: UserCredentials) {
     const user = await this.usersService.register(userCredentials);
     if (user.Id) {
