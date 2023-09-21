@@ -26,7 +26,7 @@ $ npm run test
   <li>NestJS</li>
   <li>socket.io</li>
   <li>jsonwebtoken</li>
-  <li>authentication on endpoints</li>
+
   <li>HTTP requests</li>
   <li>3 layer app structure (controllers, services, data access)</li>
   <li>firebase firestore, realtime database, storage</li>
@@ -42,6 +42,12 @@ $ npm run test
   <li>checking data from request</li>
   <li>entity, dto interfaces to not return hidden data</li>
   <li>logic functions are tested</li>
-  <li>authorization on routes for security</li>
+  
   <li>code easy to read and even easier expanding the project</li>
+</ul>
+
+<h2>Currently working on</h2>
+<ul>
+  <li>authorization on routes for security</li>
+    <li>authentication on endpoints</li>
 </ul>
