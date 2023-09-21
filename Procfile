@@ -1,3 +1,1 @@
-web: npm install
-web: npm run build
-web: npm run start:prod
+web: npm install && npm run build && npm run start:prod
