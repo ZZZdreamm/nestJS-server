@@ -1,14 +1,14 @@
 import { TestingModule } from '@nestjs/testing';
 import { ProfilesService } from '../profiles.service';
 import { getTestingModule } from '../../database/testingModule';
-import { ProfilesController } from '../profiles.controller';
+import { FirebaseService } from '../../database/firebase.service';
 
 describe('Profiles service', () => {
   let profilesService: ProfilesService;
   let module: TestingModule;
 
   beforeEach(async () => {
-    module = await getTestingModule([ProfilesService], [ProfilesController]);
+    module = await getTestingModule([ProfilesService, FirebaseService]);
     profilesService = module.get<ProfilesService>(ProfilesService);
   });
 

@@ -17,11 +17,44 @@ import { Profile } from './entities/profile.entity';
 import { UserCredentials } from './dto/userCredentials';
 import { ProfileDto } from './dto/profileDto';
 import { UpdateProfileDto } from './dto/updateProfileDto';
+import { createWebToken } from 'src/cacarrot/auth/jwtToken';
 
 @ApiTags('profiles')
 @Controller('profiles')
 export class ProfilesController {
   constructor(private readonly profilesService: ProfilesService) {}
+
+  @Post('/register')
+  @ApiOkResponse({
+    description: 'Register profile',
+    type: Profile,
+  })
+  @UsePipes(ValidationPipe)
+  async register(@Body() createProfileDto: CreateProfileDto) {
+    const user = await this.profilesService.create(createProfileDto);
+    if (user.Id) {
+      const token = createWebToken(createProfileDto);
+      return { token: token, user: user };
+    } else {
+      return new Error('Invalid login or password');
+    }
+  }
+
+  @Post('/login')
+  @ApiOkResponse({
+    description: 'Login profile',
+    type: Profile,
+  })
+  async login(@Body() userCredentials: UserCredentials) {
+    console.log(userCredentials);
+    const user = await this.profilesService.login(userCredentials);
+    if (user.Id) {
+      const token = createWebToken(userCredentials);
+      return { token: token, user: user };
+    } else {
+      return new Error('Invalid login or password');
+    }
+  }
 
   @Get('/one/:id')
   @ApiOkResponse({
@@ -44,16 +77,6 @@ export class ProfilesController {
     return this.profilesService.getAllProfilesByEmail(query);
   }
 
-  @Post('/register')
-  @ApiOkResponse({
-    description: 'Register profile',
-    type: Profile,
-  })
-  @UsePipes(ValidationPipe)
-  register(@Body() createProfileDto: CreateProfileDto): Promise<ProfileDto> {
-    return this.profilesService.create(createProfileDto);
-  }
-
   @Post('/update')
   @ApiOkResponse({
     description: 'Profile',
@@ -62,16 +85,6 @@ export class ProfilesController {
   @UsePipes(ValidationPipe)
   updateProfile(@Body() profileDto: UpdateProfileDto) {
     return this.profilesService.update(profileDto);
-  }
-
-  @Post('/login')
-  @ApiOkResponse({
-    description: 'Login profile',
-    type: Profile,
-  })
-  login(@Body() userCredentials: UserCredentials): Promise<ProfileDto> {
-    console.log(userCredentials);
-    return this.profilesService.login(userCredentials);
   }
 
   @Post('/sendFriendRequest')
