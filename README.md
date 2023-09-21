@@ -1,5 +1,5 @@
 <h1>NestJS server</h1>
-Backend server serving as REST API and exchanging data using web sockets with my 3 apps (social-app, Cacarrot, HotNews).
+Backend server serving as REST API and exchanging data using web sockets with my 3 apps (social-app, Cacarrot, HotNews) hosted on Heroku.
 
 ## Installation
 
