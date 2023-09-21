@@ -42,7 +42,8 @@ $ npm run test
   <li>checking data from request</li>
   <li>entity, dto interfaces to not return hidden data</li>
   <li>logic functions are tested</li>
-  
+
+  <li>error handling</li>
   <li>code easy to read and even easier expanding the project</li>
 </ul>
 
