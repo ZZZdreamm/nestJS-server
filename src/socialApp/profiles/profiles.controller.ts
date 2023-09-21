@@ -46,7 +46,6 @@ export class ProfilesController {
     type: Profile,
   })
   async login(@Body() userCredentials: UserCredentials) {
-    console.log(userCredentials);
     const user = await this.profilesService.login(userCredentials);
     if (user.Id) {
       const token = createWebToken(userCredentials);
@@ -73,7 +72,6 @@ export class ProfilesController {
   })
   @ApiParam({ name: 'query' })
   getAllProfilesByEmail(@Param('query') query: string): Promise<ProfileDto[]> {
-    console.log(process.env);
     return this.profilesService.getAllProfilesByEmail(query);
   }
 
