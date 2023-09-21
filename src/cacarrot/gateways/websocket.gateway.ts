@@ -41,8 +41,6 @@ export class WebsocketGateway
     private readonly websocketService: WebsocketService,
   ) {}
 
-  @WebSocketServer()
-  private readonly server: Server;
   private games = new Map<
     string,
     { game: GameState; gamecode: string; hostId: string }
@@ -50,8 +48,34 @@ export class WebsocketGateway
 
   handleConnection(@ConnectedSocket() client: Socket, ...args: any[]) {}
 
+  @SubscribeMessage('host')
+  handleHostConnect(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() data: any,
+  ) {
+    if (data.code) {
+      this.games.set(data.code, {
+        game: setupGame,
+        gamecode: data.code,
+        hostId: data.hostId,
+      });
+      client.data.gamecode = data.code;
+      client.data.hostId = data.hostId;
+      this.websocketService.listenForGameChanges(data.code, (snapshot: any) => {
+        const gameVal = snapshot.val();
+        if (gameVal) {
+          this.games.set(data.code, gameVal);
+          client.data.game = gameVal;
+        }
+      });
+    }
+  }
+
   @SubscribeMessage('host-reconnect')
-  handleHostReconnect(@ConnectedSocket() client: Socket, data: any) {
+  handleHostReconnect(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() data: any,
+  ) {
     if (data.code) {
       const gameData = this.games.get(data.code);
       gameData.hostId = data.hostId;
@@ -61,36 +85,23 @@ export class WebsocketGateway
     }
   }
 
-  @SubscribeMessage('host')
-  handleHostConnect(@ConnectedSocket() client: Socket, data: any) {
-    if (data.code) {
-      this.games.set(data.code, {
-        game: setupGame,
-        gamecode: data.code,
-        hostId: data.hostId,
-      });
-      this.websocketService.listenForGameChanges(data.code, (snapshot: any) => {
-        const gameVal = snapshot.val();
-        if (gameVal) {
-          this.games.set(data.code, gameVal);
-        }
-      });
-    }
-  }
-
   @SubscribeMessage('gamecode')
-  handleGamecode(@ConnectedSocket() client: Socket, code: any) {
+  handleGamecode(@ConnectedSocket() client: Socket, @MessageBody() code: any) {
     client.data.gamecode = code;
     this.websocketService.listenForGameChanges(code, (snapshot: any) => {
       const gameVal = snapshot.val();
       if (gameVal) {
         this.games.set(code, gameVal);
+        client.data.game = gameVal;
       }
     });
   }
 
   @SubscribeMessage('player-join')
-  async handlePlayerJoin(@ConnectedSocket() client: Socket, data: any) {
+  async handlePlayerJoin(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() data: any,
+  ) {
     const gamecode = client.data.gamecode;
     if (gamecode) {
       client.data.game = await this.websocketService.getGame(gamecode);
@@ -110,7 +121,10 @@ export class WebsocketGateway
   }
 
   @SubscribeMessage('start-game')
-  async handleStartGame(@ConnectedSocket() client: Socket, data: any) {
+  async handleStartGame(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() data: any,
+  ) {
     const gamecode = client.data.gamecode;
     if (gamecode) {
       await this.websocketService.setDataInDB(
@@ -123,7 +137,10 @@ export class WebsocketGateway
   }
 
   @SubscribeMessage('send-answer')
-  async handleSendAnswer(@ConnectedSocket() client: Socket, data: any) {
+  async handleSendAnswer(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() data: any,
+  ) {
     const game = client.data.game;
     const gamecode = client.data.gamecode;
     if (gamecode) {
@@ -153,7 +170,7 @@ export class WebsocketGateway
   }
 
   @SubscribeMessage('used-bonus')
-  handleUsedBonus(@ConnectedSocket() client: Socket, data: any) {
+  handleUsedBonus(@ConnectedSocket() client: Socket, @MessageBody() data: any) {
     if (client.data.gamecode) {
       this.websocketService.useBonus(
         client.data.game,
@@ -165,7 +182,7 @@ export class WebsocketGateway
   }
 
   handleDisconnect(@ConnectedSocket() client: Socket) {
-    if (this.games.get(client.id).hostId == client.id) {
+    if (client.data?.hostId && client.data?.gamecode) {
       this.websocketService.setDataInDB(
         client.data.gamecode,
         false,

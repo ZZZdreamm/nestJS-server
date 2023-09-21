@@ -882,6 +882,68 @@
         ]
       }
     },
+    "/cacarrot/login": {
+      "post": {
+        "operationId": "UsersController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCredentials"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserCredentials"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "cacarrot"
+        ]
+      }
+    },
+    "/cacarrot/register": {
+      "post": {
+        "operationId": "UsersController_register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCredentials"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Register",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserCredentials"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "cacarrot"
+        ]
+      }
+    },
     "/news/all": {
       "get": {
         "operationId": "NewsController_getAll",
