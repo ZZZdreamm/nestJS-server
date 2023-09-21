@@ -1,6 +1,68 @@
 {
   "openapi": "3.0.0",
   "paths": {
+    "/profiles/register": {
+      "post": {
+        "operationId": "ProfilesController_register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProfileDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Register profile",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Profile"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "profiles"
+        ]
+      }
+    },
+    "/profiles/login": {
+      "post": {
+        "operationId": "ProfilesController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCredentials"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login profile",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Profile"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "profiles"
+        ]
+      }
+    },
     "/profiles/one/{id}": {
       "get": {
         "operationId": "ProfilesController_getProfile",
@@ -61,37 +123,6 @@
         ]
       }
     },
-    "/profiles/register": {
-      "post": {
-        "operationId": "ProfilesController_register",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateProfileDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Register profile",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Profile"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "profiles"
-        ]
-      }
-    },
     "/profiles/update": {
       "post": {
         "operationId": "ProfilesController_updateProfile",
@@ -113,37 +144,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/UpdateProfileDto"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "profiles"
-        ]
-      }
-    },
-    "/profiles/login": {
-      "post": {
-        "operationId": "ProfilesController_login",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UserCredentials"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Login profile",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Profile"
                 }
               }
             }
@@ -987,25 +987,6 @@
   ],
   "components": {
     "schemas": {
-      "ProfileDto": {
-        "type": "object",
-        "properties": {
-          "Id": {
-            "type": "string"
-          },
-          "Email": {
-            "type": "string"
-          },
-          "ProfileImage": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "Id",
-          "Email",
-          "ProfileImage"
-        ]
-      },
       "CreateProfileDto": {
         "type": "object",
         "properties": {
@@ -1044,7 +1025,22 @@
           "ProfileImage"
         ]
       },
-      "UpdateProfileDto": {
+      "UserCredentials": {
+        "type": "object",
+        "properties": {
+          "Email": {
+            "type": "string"
+          },
+          "Password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "Email",
+          "Password"
+        ]
+      },
+      "ProfileDto": {
         "type": "object",
         "properties": {
           "Id": {
@@ -1063,19 +1059,23 @@
           "ProfileImage"
         ]
       },
-      "UserCredentials": {
+      "UpdateProfileDto": {
         "type": "object",
         "properties": {
+          "Id": {
+            "type": "string"
+          },
           "Email": {
             "type": "string"
           },
-          "Password": {
+          "ProfileImage": {
             "type": "string"
           }
         },
         "required": [
+          "Id",
           "Email",
-          "Password"
+          "ProfileImage"
         ]
       },
       "PostCreateDto": {
