@@ -9,6 +9,7 @@ export class FirebaseService {
 
   constructor() {
     let appInitilized = false;
+    console.log('do firebase')
     admin.apps.forEach((app) => {
       if (app.name === 'socialApp') {
         appInitilized = true;
@@ -49,6 +50,8 @@ export class FirebaseService {
     } else {
       this.firestore = admin.app('socialApp').firestore();
     }
+    console.log('za firebase')
+
   }
 
   getFirestore() {
