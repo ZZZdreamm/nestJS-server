@@ -13,12 +13,12 @@ import { FirebaseModule } from './database/firebase.module';
 import { ProfilesModule } from './profiles/profiles.module';
 import { ProfilesController } from './profiles/profiles.controller';
 import { ProfilesService } from './profiles/profiles.service';
-import { WebsocketModule } from './gateways/websocket.module';
+// import { WebsocketModule } from './gateways/websocket.module';
 
 @Module({
   imports: [
     FirebaseModule,
-    WebsocketModule,
+    // WebsocketModule,
     ProfilesModule,
     PostsModule,
     CommentsModule,
