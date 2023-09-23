@@ -1,6 +1,949 @@
 {
   "openapi": "3.0.0",
   "paths": {
+    "/profiles/register": {
+      "post": {
+        "operationId": "ProfilesController_register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProfileDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Register profile",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Profile"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "profiles"
+        ]
+      }
+    },
+    "/profiles/login": {
+      "post": {
+        "operationId": "ProfilesController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCredentials"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login profile",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Profile"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "profiles"
+        ]
+      }
+    },
+    "/profiles/one/{id}": {
+      "get": {
+        "operationId": "ProfilesController_getProfile",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get profile",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "profiles"
+        ]
+      }
+    },
+    "/profiles/search/{query}": {
+      "get": {
+        "operationId": "ProfilesController_getAllProfilesByEmail",
+        "parameters": [
+          {
+            "name": "query",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get profile by email query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "profiles"
+        ]
+      }
+    },
+    "/profiles/update": {
+      "post": {
+        "operationId": "ProfilesController_updateProfile",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProfileDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Profile",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateProfileDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "profiles"
+        ]
+      }
+    },
+    "/profiles/sendFriendRequest": {
+      "post": {
+        "operationId": "ProfilesController_sendFriendRequest",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "friendId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Send friend request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "profiles"
+        ]
+      }
+    },
+    "/profiles/acceptFriendRequest": {
+      "patch": {
+        "operationId": "ProfilesController_acceptFriendRequest",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "friendId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Accept friend request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "profiles"
+        ]
+      }
+    },
+    "/profiles/searchFriends/{userId}": {
+      "get": {
+        "operationId": "ProfilesController_searchFriends",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "query",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Search friends"
+          }
+        },
+        "tags": [
+          "profiles"
+        ]
+      }
+    },
+    "/profiles/ifInFriends": {
+      "get": {
+        "operationId": "ProfilesController_ifInFriends",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "friendId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "profiles"
+        ]
+      }
+    },
+    "/profiles/getFriends/{userId}": {
+      "get": {
+        "operationId": "ProfilesController_getFriends",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get friends"
+          }
+        },
+        "tags": [
+          "profiles"
+        ]
+      }
+    },
+    "/profiles/deleteFriend": {
+      "delete": {
+        "operationId": "ProfilesController_deleteFriend",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "friendId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete profile"
+          }
+        },
+        "tags": [
+          "profiles"
+        ]
+      }
+    },
+    "/profiles/removeFriendRequest": {
+      "delete": {
+        "operationId": "ProfilesController_removeFriendRequest",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "friendId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Remove friend request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "profiles"
+        ]
+      }
+    },
+    "/profiles/deleteFriendRequest": {
+      "delete": {
+        "operationId": "ProfilesController_deleteFriendRequest",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "friendId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete friend request"
+          }
+        },
+        "tags": [
+          "profiles"
+        ]
+      }
+    },
+    "/profiles/getFriendRequests/{userId}": {
+      "get": {
+        "operationId": "ProfilesController_getFriendsRequests",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get friend requests"
+          }
+        },
+        "tags": [
+          "profiles"
+        ]
+      }
+    },
+    "/profiles/getSentFriendRequests/{userId}": {
+      "get": {
+        "operationId": "ProfilesController_getSentFriendRequests",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get sent friend requests"
+          }
+        },
+        "tags": [
+          "profiles"
+        ]
+      }
+    },
+    "/posts/all/{numberOfPosts}": {
+      "get": {
+        "operationId": "PostsController_getAll",
+        "parameters": [
+          {
+            "name": "numberOfPosts",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "posts"
+        ]
+      }
+    },
+    "/posts/create": {
+      "post": {
+        "operationId": "PostsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostCreateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Create post",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "posts"
+        ]
+      }
+    },
+    "/posts/like": {
+      "patch": {
+        "operationId": "PostsController_likePost",
+        "parameters": [
+          {
+            "name": "postId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Like post"
+          }
+        },
+        "tags": [
+          "posts"
+        ]
+      }
+    },
+    "/posts/removeLike": {
+      "patch": {
+        "operationId": "PostsController_removeLikePost",
+        "parameters": [
+          {
+            "name": "postId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Remove like from post"
+          }
+        },
+        "tags": [
+          "posts"
+        ]
+      }
+    },
+    "/posts/ifUserLiked": {
+      "get": {
+        "operationId": "PostsController_ifLiked",
+        "parameters": [
+          {
+            "name": "postId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Check if post is liked"
+          }
+        },
+        "tags": [
+          "posts"
+        ]
+      }
+    },
+    "/posts/userPosts/{username}": {
+      "get": {
+        "operationId": "PostsController_getUserPosts",
+        "parameters": [
+          {
+            "name": "username",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "amount",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get user posts"
+          }
+        },
+        "tags": [
+          "posts"
+        ]
+      }
+    },
+    "/posts/delete": {
+      "delete": {
+        "operationId": "PostsController_deletePost",
+        "parameters": [
+          {
+            "name": "postId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete post"
+          }
+        },
+        "tags": [
+          "posts"
+        ]
+      }
+    },
+    "/posts/update": {
+      "patch": {
+        "operationId": "PostsController_updatePost",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePostDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Update post"
+          }
+        },
+        "tags": [
+          "posts"
+        ]
+      }
+    },
+    "/comments/all/{amount}": {
+      "get": {
+        "operationId": "CommentsController_getAll",
+        "parameters": [
+          {
+            "name": "amount",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "postId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "comments"
+        ]
+      }
+    },
+    "/comments/create": {
+      "post": {
+        "operationId": "CommentsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommentCreateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "comments"
+        ]
+      }
+    },
+    "/messages/send": {
+      "post": {
+        "operationId": "MessagesController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MessageCreateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Create message"
+          }
+        },
+        "tags": [
+          "messages"
+        ]
+      }
+    },
+    "/messages/getChatMessages": {
+      "get": {
+        "operationId": "MessagesController_getChatMessages",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "friendId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "amount",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get messages"
+          }
+        },
+        "tags": [
+          "messages"
+        ]
+      }
+    },
+    "/messages/getMessagesToMessageWithId": {
+      "get": {
+        "operationId": "MessagesController_getMessagesToMessageWithId",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "friendId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "messageId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get messages"
+          }
+        },
+        "tags": [
+          "messages"
+        ]
+      }
+    },
+    "/messages/delete": {
+      "delete": {
+        "operationId": "MessagesController_deleteMessage",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "friendId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "messageId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete message"
+          }
+        },
+        "tags": [
+          "messages"
+        ]
+      }
+    },
+    "/cacarrot/login": {
+      "post": {
+        "operationId": "UsersController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCredentials"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserCredentials"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "cacarrot"
+        ]
+      }
+    },
+    "/cacarrot/register": {
+      "post": {
+        "operationId": "UsersController_register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCredentials"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Register",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserCredentials"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "cacarrot"
+        ]
+      }
+    },
     "/news/all": {
       "get": {
         "operationId": "NewsController_getAll",
@@ -43,6 +986,253 @@
     }
   ],
   "components": {
-    "schemas": {}
+    "schemas": {
+      "CreateProfileDto": {
+        "type": "object",
+        "properties": {
+          "Email": {
+            "type": "string"
+          },
+          "Password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "Email",
+          "Password"
+        ]
+      },
+      "Profile": {
+        "type": "object",
+        "properties": {
+          "Id": {
+            "type": "string"
+          },
+          "Email": {
+            "type": "string"
+          },
+          "Password": {
+            "type": "string"
+          },
+          "ProfileImage": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "Id",
+          "Email",
+          "Password",
+          "ProfileImage"
+        ]
+      },
+      "UserCredentials": {
+        "type": "object",
+        "properties": {
+          "Email": {
+            "type": "string"
+          },
+          "Password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "Email",
+          "Password"
+        ]
+      },
+      "ProfileDto": {
+        "type": "object",
+        "properties": {
+          "Id": {
+            "type": "string"
+          },
+          "Email": {
+            "type": "string"
+          },
+          "ProfileImage": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "Id",
+          "Email",
+          "ProfileImage"
+        ]
+      },
+      "UpdateProfileDto": {
+        "type": "object",
+        "properties": {
+          "Id": {
+            "type": "string"
+          },
+          "Email": {
+            "type": "string"
+          },
+          "ProfileImage": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "Id",
+          "Email",
+          "ProfileImage"
+        ]
+      },
+      "PostCreateDto": {
+        "type": "object",
+        "properties": {
+          "AutorId": {
+            "type": "string"
+          },
+          "AutorName": {
+            "type": "string"
+          },
+          "Date": {
+            "type": "number"
+          },
+          "TextContent": {
+            "type": "string"
+          },
+          "MediaFiles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "AutorId",
+          "AutorName",
+          "Date",
+          "TextContent",
+          "MediaFiles"
+        ]
+      },
+      "PostDto": {
+        "type": "object",
+        "properties": {
+          "AutorName": {
+            "type": "string"
+          },
+          "Date": {
+            "type": "number"
+          },
+          "MediaFiles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "Text": {
+            "type": "string"
+          },
+          "AmountOfLikes": {
+            "type": "number"
+          },
+          "AmountOfComments": {
+            "type": "number"
+          },
+          "AutorProfileImage": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "AutorName",
+          "Date",
+          "MediaFiles",
+          "Text",
+          "AmountOfLikes",
+          "AmountOfComments",
+          "AutorProfileImage"
+        ]
+      },
+      "UpdatePostDto": {
+        "type": "object",
+        "properties": {
+          "Id": {
+            "type": "string"
+          },
+          "TextContent": {
+            "type": "string"
+          },
+          "MediaFiles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "Id",
+          "TextContent",
+          "MediaFiles"
+        ]
+      },
+      "CommentCreateDto": {
+        "type": "object",
+        "properties": {
+          "PostId": {
+            "type": "string"
+          },
+          "UserId": {
+            "type": "string"
+          },
+          "TextContent": {
+            "type": "string"
+          },
+          "Date": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "PostId",
+          "UserId",
+          "TextContent",
+          "Date"
+        ]
+      },
+      "MessageCreateDto": {
+        "type": "object",
+        "properties": {
+          "SenderId": {
+            "type": "string"
+          },
+          "ReceiverId": {
+            "type": "string"
+          },
+          "SenderName": {
+            "type": "string"
+          },
+          "Date": {
+            "type": "number"
+          },
+          "TextContent": {
+            "type": "string"
+          },
+          "MediaFiles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "VoiceFile": {
+            "type": "string"
+          },
+          "responseTo": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "SenderId",
+          "ReceiverId",
+          "SenderName",
+          "Date",
+          "TextContent",
+          "MediaFiles",
+          "VoiceFile",
+          "responseTo"
+        ]
+      }
+    }
   }
 }
