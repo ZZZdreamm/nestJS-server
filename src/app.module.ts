@@ -4,7 +4,7 @@ import { CacarrotAppModule } from './cacarrot/cacarrotApp.module';
 import { NewsAppModule } from './hotNews/news.module';
 
 @Module({
-  imports: [ NewsAppModule],
+  imports: [SocialAppModule, CacarrotAppModule, NewsAppModule],
   exports: [],
   controllers: [],
   providers: [],
