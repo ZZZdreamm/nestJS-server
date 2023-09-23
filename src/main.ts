@@ -32,10 +32,9 @@ async function bootstrap() {
     }),
   );
   app.enableCors({
-    origin: true,
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   });
-  console.log('do listenowania doszedlem')
   await app.listen(PORT);
-  console.log('za listenowania doszedlem')
 }
 bootstrap();
