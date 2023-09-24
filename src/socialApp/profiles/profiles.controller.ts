@@ -18,12 +18,14 @@ import { UserCredentials } from './dto/userCredentials';
 import { ProfileDto } from './dto/profileDto';
 import { UpdateProfileDto } from './dto/updateProfileDto';
 import { createWebToken } from 'src/cacarrot/auth/jwtToken';
+import { Public } from '../auth/publicDecorator';
 
 @ApiTags('profiles')
 @Controller('profiles')
 export class ProfilesController {
   constructor(private readonly profilesService: ProfilesService) {}
 
+  @Public()
   @Post('/register')
   @ApiOkResponse({
     description: 'Register profile',
@@ -40,6 +42,7 @@ export class ProfilesController {
     }
   }
 
+  @Public()
   @Post('/login')
   @ApiOkResponse({
     description: 'Login profile',
