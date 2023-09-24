@@ -15,22 +15,28 @@ export class ProfilesService {
 
   async create(createProfileDto: CreateProfileDto) {
     let createdProfile: Profile;
+    const userProfile = { Roles: ['user'], ...createProfileDto };
     await this.firebaseService
       .getFirestore()
       .collection('Users')
-      .add(createProfileDto)
+      .add(userProfile)
       .then((res) => {
-        createdProfile = { Id: res.id, ProfileImage: '', ...createProfileDto };
+        createdProfile = {
+          Id: res.id,
+          ProfileImage: '',
+          ...userProfile,
+        };
       });
 
     return createdProfile;
   }
 
-  async login(credentials: UserCredentials): Promise<ProfileDto> {
-    let profile: ProfileDto = {
+  async login(credentials: UserCredentials) {
+    let profile: Profile = {
       Id: '',
       Email: '',
       ProfileImage: '',
+      Password: '',
     };
     const usersCollectionData = await this.firebaseService
       .getFirestore()
@@ -45,6 +51,7 @@ export class ProfilesService {
         profile.Id = snapshot.id;
         profile.Email = user.Email;
         profile.ProfileImage = user.ProfileImage;
+        profile.Roles = user?.Roles;
       }
     });
 

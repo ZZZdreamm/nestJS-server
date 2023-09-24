@@ -17,8 +17,8 @@ import { Profile } from './entities/profile.entity';
 import { UserCredentials } from './dto/userCredentials';
 import { ProfileDto } from './dto/profileDto';
 import { UpdateProfileDto } from './dto/updateProfileDto';
-import { createWebToken } from 'src/cacarrot/auth/jwtToken';
 import { Public } from '../authentication/public.decorator';
+import { createWebToken } from '../authentication/createJwtToken';
 
 @ApiTags('profiles')
 @Controller('profiles')
@@ -35,7 +35,7 @@ export class ProfilesController {
   async register(@Body() createProfileDto: CreateProfileDto) {
     const user = await this.profilesService.create(createProfileDto);
     if (user.Id) {
-      const token = createWebToken(createProfileDto);
+      const token = createWebToken(user);
       return { token: token, user: user };
     } else {
       return new Error('Invalid login or password');
@@ -51,7 +51,7 @@ export class ProfilesController {
   async login(@Body() userCredentials: UserCredentials) {
     const user = await this.profilesService.login(userCredentials);
     if (user.Id) {
-      const token = createWebToken(userCredentials);
+      const token = createWebToken(user);
       return { token: token, user: user };
     } else {
       return new Error('Invalid login or password');

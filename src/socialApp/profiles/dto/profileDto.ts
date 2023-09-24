@@ -18,4 +18,9 @@ export class ProfileDto {
   @ApiProperty()
   @IsOptional()
   ProfileImage?: string;
+
+  @Column()
+  @ApiProperty()
+  @IsOptional()
+  Roles?: string[];
 }

@@ -882,6 +882,43 @@
         ]
       }
     },
+    "/admin": {
+      "get": {
+        "operationId": "AdminController_hello",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "admin"
+        ]
+      }
+    },
+    "/admin/moderator": {
+      "post": {
+        "operationId": "AdminController_giveModeratorPermissions",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "admin"
+        ]
+      }
+    },
     "/cacarrot/login": {
       "post": {
         "operationId": "UsersController_login",
@@ -1016,13 +1053,20 @@
           },
           "ProfileImage": {
             "type": "string"
+          },
+          "Roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         },
         "required": [
           "Id",
           "Email",
           "Password",
-          "ProfileImage"
+          "ProfileImage",
+          "Roles"
         ]
       },
       "UserCredentials": {
@@ -1051,12 +1095,19 @@
           },
           "ProfileImage": {
             "type": "string"
+          },
+          "Roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         },
         "required": [
           "Id",
           "Email",
-          "ProfileImage"
+          "ProfileImage",
+          "Roles"
         ]
       },
       "UpdateProfileDto": {
@@ -1070,12 +1121,19 @@
           },
           "ProfileImage": {
             "type": "string"
+          },
+          "Roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         },
         "required": [
           "Id",
           "Email",
-          "ProfileImage"
+          "ProfileImage",
+          "Roles"
         ]
       },
       "PostCreateDto": {

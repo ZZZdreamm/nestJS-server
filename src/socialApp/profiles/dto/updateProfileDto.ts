@@ -17,4 +17,9 @@ export class UpdateProfileDto {
   @ApiProperty()
   @IsOptional()
   ProfileImage: string;
+
+  @Column()
+  @ApiProperty()
+  @IsOptional()
+  Roles: string[];
 }

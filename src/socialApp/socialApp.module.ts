@@ -14,9 +14,11 @@ import { ProfilesModule } from './profiles/profiles.module';
 import { ProfilesController } from './profiles/profiles.controller';
 import { ProfilesService } from './profiles/profiles.service';
 import { WebsocketModule } from './gateways/websocket.module';
-import { AuthGuard } from './auth/auth.guard';
+import { AuthGuard } from './authentication/auth.guard';
 import { APP_GUARD } from '@nestjs/core';
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './authentication/auth.module';
+import { RolesGuard } from './authorization/roles.guard';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -27,6 +29,7 @@ import { AuthModule } from './auth/auth.module';
     CommentsModule,
     MessagesModule,
     AuthModule,
+    AdminModule,
   ],
   exports: [],
   controllers: [
@@ -44,6 +47,10 @@ import { AuthModule } from './auth/auth.module';
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
     },
   ],
 })

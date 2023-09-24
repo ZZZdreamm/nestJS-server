@@ -7,6 +7,7 @@ export interface ProfileAttributes {
   Email: string;
   Password: string;
   ProfileImage?: string;
+  Roles?: string[];
 }
 
 @Entity()
@@ -27,4 +28,9 @@ export class Profile implements ProfileAttributes {
   @ApiProperty()
   @Optional()
   ProfileImage?: string;
+
+  @Column()
+  @ApiProperty()
+  @Optional()
+  Roles?: string[];
 }

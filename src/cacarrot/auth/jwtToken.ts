@@ -1,5 +1,6 @@
 import {sign} from 'jsonwebtoken';
 import { UserCredentials } from '../users/dto/userCredentials';
+import { Profile } from 'src/socialApp/profiles/entities/profile.entity';
 
 export function createWebToken(userCredentials: UserCredentials) {
   var token = sign(
