@@ -14,6 +14,9 @@ import { ProfilesModule } from './profiles/profiles.module';
 import { ProfilesController } from './profiles/profiles.controller';
 import { ProfilesService } from './profiles/profiles.service';
 import { WebsocketModule } from './gateways/websocket.module';
+import { AuthGuard } from './auth/auth.guard';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -23,6 +26,7 @@ import { WebsocketModule } from './gateways/websocket.module';
     PostsModule,
     CommentsModule,
     MessagesModule,
+    AuthModule,
   ],
   exports: [],
   controllers: [
@@ -37,6 +41,10 @@ import { WebsocketModule } from './gateways/websocket.module';
     CommentsService,
     MessagesService,
     FirebaseService,
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
   ],
 })
 export class SocialAppModule {}

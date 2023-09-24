@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@nestjs/core": "^10.0.0",
+    "@nestjs/jwt": "^10.1.1",
     "@nestjs/platform-express": "^10.2.5",
     "@nestjs/platform-socket.io": "^10.2.5",
     "@nestjs/swagger": "^7.1.11",
