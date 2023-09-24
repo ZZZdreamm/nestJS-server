@@ -18,7 +18,7 @@ import { UserCredentials } from './dto/userCredentials';
 import { ProfileDto } from './dto/profileDto';
 import { UpdateProfileDto } from './dto/updateProfileDto';
 import { createWebToken } from 'src/cacarrot/auth/jwtToken';
-import { Public } from '../auth/publicDecorator';
+import { Public } from '../authentication/public.decorator';
 
 @ApiTags('profiles')
 @Controller('profiles')
