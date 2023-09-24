@@ -3,15 +3,12 @@ import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as fs from 'fs';
 import { ValidationPipe } from '@nestjs/common';
-import * as express from 'express';
-import { join } from 'path';
 
 const PORT = process.env.PORT || 5000;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // app.use(express.static(join(__dirname, '..', 'public')));
   const config = new DocumentBuilder()
     .setTitle('Backend API')
     .setDescription('REST API')
