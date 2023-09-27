@@ -26,7 +26,7 @@ export class PostDto implements PostDtoAttributes {
 
   @Column()
   @ApiProperty()
-  Text: string;
+  TextContent: string;
 
   @Column()
   @ApiProperty()

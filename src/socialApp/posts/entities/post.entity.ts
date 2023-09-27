@@ -6,7 +6,7 @@ export interface PostAttributes {
   AutorId: string;
   Date: number;
   MediaFiles: string[];
-  Text: string;
+  TextContent: string;
   AmountOfLikes: number;
   AmountOfComments: number;
 }
@@ -31,7 +31,7 @@ export class Post implements PostAttributes {
 
   @Column()
   @ApiProperty()
-  Text: string;
+  TextContent: string;
 
   @Column()
   @ApiProperty()

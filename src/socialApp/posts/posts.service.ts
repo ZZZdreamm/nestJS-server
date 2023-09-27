@@ -139,7 +139,7 @@ export class PostsService {
         AutorName: autor.Email,
         Date: docData.Date,
         MediaFiles: docData.MediaFiles,
-        Text: docData.Text,
+        TextContent: docData.TextContent,
         AmountOfLikes: docData.AmountOfLikes,
         AmountOfComments: docData.AmountOfComments,
       };
