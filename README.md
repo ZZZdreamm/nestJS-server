@@ -49,5 +49,5 @@ $ npm run test
 
 <h2>Currently working on</h2>
 <ul>
-  <li>adding roles to users e.g. client, admin</li>
+  <li>add middleware to add requests to queue with different priorities to process admin requests first</li>
 </ul>
