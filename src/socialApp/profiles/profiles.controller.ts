@@ -78,7 +78,7 @@ export class ProfilesController {
     return this.profilesService.getAllProfilesByEmail(query);
   }
 
-  @Post('/update')
+  @Patch('/update')
   @ApiOkResponse({
     description: 'Profile',
     type: UpdateProfileDto,

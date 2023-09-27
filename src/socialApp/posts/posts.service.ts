@@ -20,14 +20,18 @@ export class PostsService {
       AmountOfLikes: 0,
       ...post,
     };
-    const postsCollection = this.firebaseService.getFirestore().collection('Posts');
+    const postsCollection = this.firebaseService
+      .getFirestore()
+      .collection('Posts');
     const newPost = await postsCollection.add(fullPost);
     const autorImage = await this.profilesService.getUserImage(post.AutorName);
     return { Id: newPost.id, AutorProfileImage: autorImage, ...fullPost };
   }
 
   async getSomeNewest(numberOfPosts: number) {
-    const postsCollection = this.firebaseService.getFirestore().collection('Posts');
+    const postsCollection = this.firebaseService
+      .getFirestore()
+      .collection('Posts');
 
     const query = postsCollection.limit(numberOfPosts);
     let posts: PostDto[] = [];
@@ -52,7 +56,10 @@ export class PostsService {
   }
 
   async likePost(postId: string, userId: string) {
-    const postRef = this.firebaseService.getFirestore().collection('Posts').doc(postId);
+    const postRef = this.firebaseService
+      .getFirestore()
+      .collection('Posts')
+      .doc(postId);
     const ifAlreadyLiked = await postRef
       .collection('Likes')
       .where('UserId', '==', userId)
@@ -74,7 +81,10 @@ export class PostsService {
   }
 
   async removeLike(postId: string, userId: string) {
-    const postRef = this.firebaseService.getFirestore().collection('Posts').doc(postId);
+    const postRef = this.firebaseService
+      .getFirestore()
+      .collection('Posts')
+      .doc(postId);
     let deleted = false;
     const docs = await postRef
       .collection('Likes')
@@ -84,7 +94,7 @@ export class PostsService {
       doc.ref.delete();
       deleted = true;
     });
-    if(!deleted) return false;
+    if (!deleted) return false;
     await postRef.get().then(async (doc) => {
       const likes = await doc.data()?.AmountOfLikes;
       await postRef.update({
@@ -95,7 +105,8 @@ export class PostsService {
   }
 
   async ifUserLiked(postId: string, userId: string) {
-    const likesRef = this.firebaseService.getFirestore()
+    const likesRef = this.firebaseService
+      .getFirestore()
       .collection('Posts')
       .doc(postId)
       .collection('Likes');
@@ -123,6 +134,7 @@ export class PostsService {
       const docData = doc.data();
       const autor = await this.profilesService.getProfile(docData.AutorId);
       let post: PostDto = {
+        Id: doc.id,
         AutorProfileImage: autor.ProfileImage,
         AutorName: autor.Email,
         Date: docData.Date,
@@ -140,7 +152,10 @@ export class PostsService {
 
   async deletePost(postId: string) {
     try {
-      const postRef = this.firebaseService.getFirestore().collection('Posts').doc(postId);
+      const postRef = this.firebaseService
+        .getFirestore()
+        .collection('Posts')
+        .doc(postId);
       await postRef.delete();
     } catch (err) {
       return 'error';
@@ -150,7 +165,10 @@ export class PostsService {
 
   async updatePost(post: UpdatePostDto) {
     try {
-      const postRef = this.firebaseService.getFirestore().collection('Posts').doc(post.Id);
+      const postRef = this.firebaseService
+        .getFirestore()
+        .collection('Posts')
+        .doc(post.Id);
       await postRef.update({
         TextContent: post.TextContent,
         MediaFiles: post.MediaFiles,

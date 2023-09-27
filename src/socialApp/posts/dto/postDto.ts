@@ -2,12 +2,16 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Column, PrimaryGeneratedColumn } from 'typeorm';
 import { PostAttributes } from '../entities/post.entity';
 
-interface PostDtoAttributes extends Omit<PostAttributes, 'Id' | 'AutorId'> {
+interface PostDtoAttributes extends Omit<PostAttributes, 'AutorId'> {
   AutorProfileImage: string;
   AutorName: string;
 }
 
 export class PostDto implements PostDtoAttributes {
+  @Column()
+  @ApiProperty()
+  Id: string;
+
   @Column()
   @ApiProperty()
   AutorName: string;

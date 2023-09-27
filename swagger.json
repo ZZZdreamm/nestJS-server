@@ -124,7 +124,7 @@
       }
     },
     "/profiles/update": {
-      "post": {
+      "patch": {
         "operationId": "ProfilesController_updateProfile",
         "parameters": [],
         "requestBody": {
@@ -1169,6 +1169,9 @@
       "PostDto": {
         "type": "object",
         "properties": {
+          "Id": {
+            "type": "string"
+          },
           "AutorName": {
             "type": "string"
           },
@@ -1195,6 +1198,7 @@
           }
         },
         "required": [
+          "Id",
           "AutorName",
           "Date",
           "MediaFiles",
