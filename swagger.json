@@ -461,12 +461,12 @@
         ]
       }
     },
-    "/posts/all/{numberOfPosts}": {
+    "/posts/all/{previousPostId}": {
       "get": {
         "operationId": "PostsController_getAll",
         "parameters": [
           {
-            "name": "numberOfPosts",
+            "name": "previousPostId",
             "required": true,
             "in": "path",
             "schema": {

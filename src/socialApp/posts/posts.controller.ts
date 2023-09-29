@@ -19,10 +19,10 @@ import { UpdatePostDto } from './dto/updatePostDto';
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
-  @Get('/all/:numberOfPosts')
-  @ApiParam({ name: 'numberOfPosts' })
-  getAll(@Param('numberOfPosts') numberOfPosts: string) {
-    return this.postsService.getSomeNewest(+numberOfPosts);
+  @Get('/all/:previousPostId')
+  @ApiParam({ name: 'previousPostId' })
+  getAll(@Param('previousPostId') previousPostId: string) {
+    return this.postsService.getSomeNewest(previousPostId);
   }
 
   @Post('/create')

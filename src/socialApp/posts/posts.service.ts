@@ -28,30 +28,31 @@ export class PostsService {
     return { Id: newPost.id, AutorProfileImage: autorImage, ...fullPost };
   }
 
-  async getSomeNewest(numberOfPosts: number) {
+  async getSomeNewest(startingPoint: string) {
     const postsCollection = this.firebaseService
       .getFirestore()
       .collection('Posts');
 
-    const query = postsCollection.limit(numberOfPosts);
-    let posts: PostDto[] = [];
-    await query
+    const query = postsCollection
       .orderBy('Date', 'desc')
-      .get()
-      .then(async (querySnapshot: any) => {
-        const promises = querySnapshot.docs.map(async (doc: any) => {
-          const autorImage = await this.profilesService.getUserImage(
-            doc.data().AutorName,
-          );
-          let post = {
-            ...doc.data(),
-            Id: doc.id,
-            AutorProfileImage: autorImage || '',
-          };
-          return post;
-        });
-        posts = await Promise.all(promises);
+      .startAfter(startingPoint)
+      .limit(10);
+    let posts: PostDto[] = [];
+    await query.get().then(async (querySnapshot: any) => {
+      const promises = querySnapshot.docs.map(async (doc) => {
+        const autorImage = await this.profilesService.getUserImage(
+          doc.data().AutorName,
+        );
+
+        let post = {
+          ...doc.data(),
+          Id: doc.id,
+          AutorProfileImage: autorImage || '',
+        };
+        return post;
       });
+      posts = await Promise.all(promises);
+    });
     return posts;
   }
 
