@@ -22,7 +22,7 @@ export class PostsController {
   @Get('/all/:previousPostId')
   @ApiParam({ name: 'previousPostId' })
   getAll(@Param('previousPostId') previousPostId: string) {
-    return this.postsService.getSomeNewest(previousPostId);
+    return this.postsService.getSomeNewest(+previousPostId);
   }
 
   @Post('/create')

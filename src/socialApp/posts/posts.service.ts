@@ -28,14 +28,14 @@ export class PostsService {
     return { Id: newPost.id, AutorProfileImage: autorImage, ...fullPost };
   }
 
-  async getSomeNewest(startingPoint: string) {
+  async getSomeNewest(startingPoint: number) {
     const postsCollection = this.firebaseService
       .getFirestore()
       .collection('Posts');
 
     const query = postsCollection
       .orderBy('Date', 'desc')
-      .startAfter(startingPoint)
+      .startAfter(startingPoint || "")
       .limit(10);
     let posts: PostDto[] = [];
     await query.get().then(async (querySnapshot: any) => {
