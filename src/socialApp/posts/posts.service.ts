@@ -35,7 +35,7 @@ export class PostsService {
 
     const query = postsCollection
       .orderBy('Date', 'desc')
-      .startAfter(startingPoint || "")
+      .startAfter(startingPoint || '')
       .limit(10);
     let posts: PostDto[] = [];
     await query.get().then(async (querySnapshot: any) => {
@@ -123,13 +123,15 @@ export class PostsService {
     return liked;
   }
 
-  async getPostsOfUser(username: string, numberOfPosts: number) {
+  async getPostsOfUser(username: string, previousPostDate: number) {
     const postsRef = this.firebaseService.getFirestore().collection('Posts');
     const query = postsRef
       .where('AutorName', '==', username)
-      .limit(numberOfPosts);
+      .orderBy('Date', 'desc')
+      .startAfter(previousPostDate || '')
+      .limit(10);
     let posts: PostDto[] = [];
-    const querySnapshot = await query.orderBy('Date', 'desc').get();
+    const querySnapshot = await query.get();
 
     const promises = querySnapshot.docs.map(async (doc) => {
       const docData = doc.data();

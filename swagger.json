@@ -461,12 +461,12 @@
         ]
       }
     },
-    "/posts/all/{previousPostId}": {
+    "/posts/all/{previousPostDate}": {
       "get": {
         "operationId": "PostsController_getAll",
         "parameters": [
           {
-            "name": "previousPostId",
+            "name": "previousPostDate",
             "required": true,
             "in": "path",
             "schema": {
@@ -621,7 +621,7 @@
             }
           },
           {
-            "name": "amount",
+            "name": "previousPostDate",
             "required": true,
             "in": "query",
             "schema": {

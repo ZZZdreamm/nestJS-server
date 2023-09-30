@@ -19,10 +19,10 @@ import { UpdatePostDto } from './dto/updatePostDto';
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
-  @Get('/all/:previousPostId')
-  @ApiParam({ name: 'previousPostId' })
-  getAll(@Param('previousPostId') previousPostId: string) {
-    return this.postsService.getSomeNewest(+previousPostId);
+  @Get('/all/:previousPostDate')
+  @ApiParam({ name: 'previousPostDate' })
+  getAll(@Param('previousPostDate') previousPostDate: string) {
+    return this.postsService.getSomeNewest(+previousPostDate);
   }
 
   @Post('/create')
@@ -68,9 +68,9 @@ export class PostsController {
   })
   getUserPosts(
     @Param('username') username: string,
-    @Query('amount') amount: string,
+    @Query('previousPostDate') previousPostDate: string,
   ) {
-    return this.postsService.getPostsOfUser(username, +amount);
+    return this.postsService.getPostsOfUser(username, +previousPostDate);
   }
 
   @Delete('/delete')
