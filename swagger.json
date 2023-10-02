@@ -765,6 +765,45 @@
         ]
       }
     },
+    "/messages/getMessage": {
+      "get": {
+        "operationId": "MessagesController_getMessage",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "friendId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "messageId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get one message"
+          }
+        },
+        "tags": [
+          "messages"
+        ]
+      }
+    },
     "/messages/getChatMessages": {
       "get": {
         "operationId": "MessagesController_getChatMessages",
@@ -779,6 +818,14 @@
           },
           {
             "name": "friendId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "lastMessageDate",
             "required": true,
             "in": "query",
             "schema": {
@@ -875,6 +922,20 @@
         "responses": {
           "200": {
             "description": "Delete message"
+          }
+        },
+        "tags": [
+          "messages"
+        ]
+      }
+    },
+    "/messages/test": {
+      "get": {
+        "operationId": "MessagesController_testEndpoint",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
           }
         },
         "tags": [

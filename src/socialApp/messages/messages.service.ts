@@ -11,7 +11,9 @@ export class MessagesService {
   ) {}
 
   async create(message: MessageCreateDto) {
-    const usersFireStore = this.firebaseService.getFirestore().collection('Users');
+    const usersFireStore = this.firebaseService
+      .getFirestore()
+      .collection('Users');
     if (
       message.MediaFiles.length <= 0 &&
       !message.TextContent &&
@@ -46,21 +48,42 @@ export class MessagesService {
     return createdMessage;
   }
 
-  async getChatMessages(
-    userId: string,
-    friendId: string,
-    numberOfMessages: number,
-  ) {
-    const usersFireStore = this.firebaseService.getFirestore().collection('Users');
+  async getMessage(userId: string, friendId: string, messageId: string) {
+    const usersFireStore = this.firebaseService
+      .getFirestore()
+      .collection('Users');
     const query = usersFireStore
       .doc(userId)
       .collection('Messages')
       .doc(friendId)
+      .collection('Messages');
+    const snapshot = await query.doc(messageId).get();
+    const message = {
+      Id: snapshot.id,
+      ...snapshot.data(),
+    };
+    return message;
+  }
+
+  async getChatMessages(
+    userId: string,
+    friendId: string,
+    lastMessageDate: number,
+    amount: number,
+  ) {
+    const usersFireStore = this.firebaseService
+      .getFirestore()
+      .collection('Users');
+    const query = usersFireStore
+      .doc(userId)
       .collection('Messages')
-      .limit(numberOfMessages);
+      .doc(friendId)
+      .collection('Messages');
     let messages;
     await query
       .orderBy('Date', 'desc')
+      .startAfter(lastMessageDate || '')
+      .limit(amount)
       .get()
       .then(async (querySnapshot: any) => {
         const promises = querySnapshot.docs.map(async (doc: any) => {
@@ -77,7 +100,9 @@ export class MessagesService {
   }
 
   async delete(userId: string, friendId: string, messageId: string) {
-    const usersFireStore = this.firebaseService.getFirestore().collection('Users');
+    const usersFireStore = this.firebaseService
+      .getFirestore()
+      .collection('Users');
     await usersFireStore
       .doc(userId)
       .collection('Messages')
@@ -99,7 +124,9 @@ export class MessagesService {
     friendId: string,
     messageId: string,
   ) {
-    const usersFireStore = this.firebaseService.getFirestore().collection('Users');
+    const usersFireStore = this.firebaseService
+      .getFirestore()
+      .collection('Users');
     const query = usersFireStore
       .doc(userId)
       .collection('Messages')
@@ -141,32 +168,32 @@ export class MessagesService {
             }
           });
         });
-      await query
-        .orderBy('Date', 'desc')
-        .startAt(messageToGet.Date)
-        .limit(10)
-        .get()
-        .then(async (querySnapshot: any) => {
-          let promisesAfter = querySnapshot.docs.map(async (doc: any) => {
-            let message: any = {
-              ...doc.data(),
-              Id: doc.id,
-            };
-            if (message.Date < messageToGet.Date) {
-              return message;
-            }
-          });
+      // await query
+      //   .orderBy('Date', 'desc')
+      //   .startAt(messageToGet.Date)
+      //   .limit(10)
+      //   .get()
+      //   .then(async (querySnapshot: any) => {
+      //     let promisesAfter = querySnapshot.docs.map(async (doc: any) => {
+      //       let message: any = {
+      //         ...doc.data(),
+      //         Id: doc.id,
+      //       };
+      //       if (message.Date < messageToGet.Date) {
+      //         return message;
+      //       }
+      //     });
 
-          messagesAfter = await Promise.all(promisesAfter);
-          messagesAfter = messagesAfter.filter((message) => {
-            if (message) {
-              return message;
-            }
-          });
-        });
+      //     messagesAfter = await Promise.all(promisesAfter);
+      //     messagesAfter = messagesAfter.filter((message) => {
+      //       if (message) {
+      //         return message;
+      //       }
+      //     });
+      //   });
       allMessages.push(...messagesBefore);
       allMessages.push(messageToGet);
-      allMessages.push(...messagesAfter);
+      // allMessages.push(...messagesAfter);
     } catch {}
 
     return allMessages;

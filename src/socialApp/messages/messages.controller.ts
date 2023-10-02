@@ -16,6 +16,18 @@ export class MessagesController {
     return this.messagesService.create(messageCreateDto);
   }
 
+  @Get('/getMessage')
+  @ApiOkResponse({
+    description: 'Get one message',
+  })
+  getMessage(
+    @Query('userId') userId: string,
+    @Query('friendId') friendId: string,
+    @Query('messageId') messageId: string,
+  ) {
+    return this.messagesService.getMessage(userId, friendId, messageId);
+  }
+
   @Get('/getChatMessages')
   @ApiOkResponse({
     description: 'Get messages',
@@ -23,9 +35,15 @@ export class MessagesController {
   getChatMessages(
     @Query('userId') userId: string,
     @Query('friendId') friendId: string,
+    @Query('lastMessageDate') lastMessageDate: string,
     @Query('amount') amount: string,
   ) {
-    return this.messagesService.getChatMessages(userId, friendId, +amount);
+    return this.messagesService.getChatMessages(
+      userId,
+      friendId,
+      +lastMessageDate,
+      +amount,
+    );
   }
 
   @Get('/getMessagesToMessageWithId')
@@ -54,5 +72,10 @@ export class MessagesController {
     @Query('messageId') messageId: string,
   ) {
     return this.messagesService.delete(userId, friendId, messageId);
+  }
+
+  @Get('/test')
+  testEndpoint() {
+    return 'Its test';
   }
 }
