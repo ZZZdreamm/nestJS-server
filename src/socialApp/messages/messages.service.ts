@@ -168,32 +168,9 @@ export class MessagesService {
             }
           });
         });
-      // await query
-      //   .orderBy('Date', 'desc')
-      //   .startAt(messageToGet.Date)
-      //   .limit(10)
-      //   .get()
-      //   .then(async (querySnapshot: any) => {
-      //     let promisesAfter = querySnapshot.docs.map(async (doc: any) => {
-      //       let message: any = {
-      //         ...doc.data(),
-      //         Id: doc.id,
-      //       };
-      //       if (message.Date < messageToGet.Date) {
-      //         return message;
-      //       }
-      //     });
-
-      //     messagesAfter = await Promise.all(promisesAfter);
-      //     messagesAfter = messagesAfter.filter((message) => {
-      //       if (message) {
-      //         return message;
-      //       }
-      //     });
-      //   });
+    
       allMessages.push(...messagesBefore);
       allMessages.push(messageToGet);
-      // allMessages.push(...messagesAfter);
     } catch {}
 
     return allMessages;
