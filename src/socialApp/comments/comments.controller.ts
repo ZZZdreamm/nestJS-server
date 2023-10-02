@@ -8,10 +8,18 @@ import { CommentCreateDto } from './dto/commentCreateDto';
 export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
 
-  @Get('/all/:amount')
-  @ApiParam({ name: 'amount' })
-  getAll(@Param('amount') amount: string, @Query('postId') postId: string) {
-    return this.commentsService.getSomeNewest(+amount, postId);
+  @Get('/all')
+  @ApiParam({ name: 'lastCommentDate' })
+  getAll(
+    @Query('postId') postId: string,
+    @Query('lastCommentDate') lastCommentDate: string,
+    @Query('amount') amount: string,
+  ) {
+    return this.commentsService.getSomeNewest(
+      postId,
+      +lastCommentDate,
+      +amount,
+    );
   }
 
   @Post('/create')

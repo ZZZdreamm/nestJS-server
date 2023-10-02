@@ -686,12 +686,20 @@
         ]
       }
     },
-    "/comments/all/{amount}": {
+    "/comments/all": {
       "get": {
         "operationId": "CommentsController_getAll",
         "parameters": [
           {
-            "name": "amount",
+            "name": "postId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "lastCommentDate",
             "required": true,
             "in": "path",
             "schema": {
@@ -699,7 +707,7 @@
             }
           },
           {
-            "name": "postId",
+            "name": "amount",
             "required": true,
             "in": "query",
             "schema": {

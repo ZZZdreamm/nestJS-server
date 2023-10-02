@@ -36,14 +36,16 @@ export class CommentsService {
     return commentDto;
   }
 
-  async getSomeNewest(amount: number, postId: string) {
+  async getSomeNewest(postId: string, lastCommentDate: number, amount: number) {
     const commentsRef = this.firebaseService
       .getFirestore()
       .collection('Posts')
       .doc(postId)
       .collection('Comments')
-      .orderBy('Date', 'desc');
-    const commentsDocs = (await commentsRef.limit(amount).get()).docs;
+      .orderBy('Date', 'desc')
+      .startAfter(lastCommentDate || '')
+      .limit(amount);
+    const commentsDocs = (await commentsRef.get()).docs;
     let comments: CommentDto[] = [];
     const promises = commentsDocs.map(async (doc) => {
       const docData = doc.data();
