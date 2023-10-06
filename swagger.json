@@ -1188,21 +1188,18 @@
           "Email": {
             "type": "string"
           },
-          "ProfileImage": {
+          "Password": {
             "type": "string"
           },
-          "Roles": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+          "ProfileImage": {
+            "type": "string"
           }
         },
         "required": [
           "Id",
           "Email",
-          "ProfileImage",
-          "Roles"
+          "Password",
+          "ProfileImage"
         ]
       },
       "PostCreateDto": {
