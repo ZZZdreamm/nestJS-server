@@ -24,15 +24,15 @@ export class MessageDto implements MessageDtoAttributes {
 
   @Column()
   @ApiProperty()
-  TextContent: string;
+  TextContent?: string;
 
   @Column()
   @ApiProperty()
-  MediaFiles: string[];
+  MediaFiles?: string[];
 
   @Column()
   @ApiProperty()
-  VoiceFile: string;
+  VoiceFile?: string;
 
   @Column()
   @ApiProperty()
@@ -48,5 +48,5 @@ export class MessageDto implements MessageDtoAttributes {
 
   @Column()
   @ApiProperty()
-  ResponseTo: MessageResponseDto;
+  ResponseTo?: MessageResponseDto;
 }

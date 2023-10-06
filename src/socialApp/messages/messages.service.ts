@@ -15,7 +15,7 @@ export class MessagesService {
       .getFirestore()
       .collection('Users');
     if (
-      message.MediaFiles.length <= 0 &&
+      (!message.MediaFiles || message.MediaFiles.length == 0) &&
       !message.TextContent &&
       !message.VoiceFile
     ) {
@@ -25,7 +25,7 @@ export class MessagesService {
         MediaFiles: [likeURL],
       };
     }
-    let createdMessage: any;
+    let createdMessage: MessageDto;
     await usersFireStore
       .doc(message.SenderId)
       .collection('Messages')
@@ -36,6 +36,8 @@ export class MessagesService {
         createdMessage = {
           ...message,
           Id: docRef.id,
+          Emojis: [],
+          AmountOfEmojis: 0,
         };
       });
     await usersFireStore
@@ -58,7 +60,7 @@ export class MessagesService {
       .doc(friendId)
       .collection('Messages');
     const snapshot = await query.doc(messageId).get();
-    const message = {
+    const message: any = {
       Id: snapshot.id,
       ...snapshot.data(),
     };
@@ -168,7 +170,7 @@ export class MessagesService {
             }
           });
         });
-    
+
       allMessages.push(...messagesBefore);
       allMessages.push(messageToGet);
     } catch {}

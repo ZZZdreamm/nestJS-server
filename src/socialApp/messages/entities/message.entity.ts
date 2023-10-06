@@ -7,13 +7,13 @@ export interface MessageAttributes {
   SenderId: string;
   SenderName: string;
   ReceiverId: string;
-  TextContent: string;
-  MediaFiles: string[];
-  VoiceFile: string;
+  TextContent?: string;
+  MediaFiles?: string[];
+  VoiceFile?: string;
   Date: number;
   Emojis: string[];
   AmountOfEmojis: number;
-  ResponseTo: MessageResponseDto;
+  ResponseTo?: MessageResponseDto;
 }
 
 
@@ -37,15 +37,15 @@ export class Message implements MessageAttributes {
 
   @Column()
   @ApiProperty()
-  TextContent: string;
+  TextContent?: string;
 
   @Column()
   @ApiProperty()
-  MediaFiles: string[];
+  MediaFiles?: string[];
 
   @Column()
   @ApiProperty()
-  VoiceFile: string;
+  VoiceFile?: string;
 
   @Column()
   @ApiProperty()
@@ -61,5 +61,5 @@ export class Message implements MessageAttributes {
 
   @Column()
   @ApiProperty()
-  ResponseTo: MessageResponseDto;
+  ResponseTo?: MessageResponseDto;
 }
