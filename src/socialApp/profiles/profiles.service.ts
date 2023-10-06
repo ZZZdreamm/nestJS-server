@@ -119,24 +119,19 @@ export class ProfilesService {
       });
   }
 
-  async getUserImage(userId: string) {
+  async getUserImage(username: string) {
     let image: string;
-    const snapshot = await this.firebaseService
+    const usersCollection = await this.firebaseService
       .getFirestore()
-      .collection('Users')
-      .doc(userId)
-      .get();
-    const data = snapshot.data();
-    if (!data) throw new Error('User does not exist');
-    image = data?.ProfileImage;
-    // await usersCollection.get().then((querySnapshot) => {
-    //   querySnapshot.forEach((user) => {
-    //     const data = user.data();
-    //     if (data.Email == username) {
-    //       image = data.ProfileImage;
-    //     }
-    //   });
-    // });
+      .collection('Users');
+    await usersCollection.get().then((querySnapshot) => {
+      querySnapshot.forEach((user) => {
+        const data = user.data();
+        if (data.Email == username) {
+          image = data.ProfileImage;
+        }
+      });
+    });
     return image;
   }
 
