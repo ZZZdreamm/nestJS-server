@@ -1,7 +1,8 @@
 import * as admin from 'firebase-admin';
 import { Injectable } from '@nestjs/common';
 import 'dotenv/config';
-import { getFirestore, connectFirestoreEmulator } from '@firebase/firestore';
+
+export const EMULATOR_PORT = 8080;
 
 @Injectable()
 export class FirebaseService {
@@ -9,7 +10,6 @@ export class FirebaseService {
 
   constructor() {
     let appInitilized = false;
-    console.log('do firebase');
     admin.apps.forEach((app) => {
       if (app.name === 'socialApp') {
         appInitilized = true;
@@ -17,37 +17,26 @@ export class FirebaseService {
     });
     if (!appInitilized) {
       if (process.env.NODE_ENV === 'test') {
-        this.firestore = admin
-          .initializeApp(
-            {
-              credential: admin.credential.applicationDefault(),
-            },
-            'socialApp',
-          )
-          .firestore();
-        // const db = getFirestore();
-        // connectFirestoreEmulator(db, '127.0.0.1', 8080);
-      } else {
-        this.firestore = admin
-          .initializeApp(
-            {
-              credential: admin.credential.cert({
-                projectId: process.env.SOCIALAPP_PROJECT_ID,
-                clientEmail: process.env.SOCIALAPP_CLIENT_EMAIL,
-                privateKey: process.env.SOCIALAPP_PRIVATE_KEY.replace(
-                  /\\n/g,
-                  '\n',
-                ),
-              }),
-            },
-            'socialApp',
-          )
-          .firestore();
+        process.env['FIRESTORE_EMULATOR_HOST'] = `localhost:${EMULATOR_PORT}`;
       }
+      this.firestore = admin
+        .initializeApp(
+          {
+            credential: admin.credential.cert({
+              projectId: process.env.SOCIALAPP_PROJECT_ID,
+              clientEmail: process.env.SOCIALAPP_CLIENT_EMAIL,
+              privateKey: process.env.SOCIALAPP_PRIVATE_KEY.replace(
+                /\\n/g,
+                '\n',
+              ),
+            }),
+          },
+          'socialApp',
+        )
+        .firestore();
     } else {
       this.firestore = admin.app('socialApp').firestore();
     }
-    console.log('za firebase');
   }
 
   getFirestore() {

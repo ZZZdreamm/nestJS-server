@@ -5,6 +5,7 @@ import { UserCredentials } from './dto/userCredentials';
 import { ProfileDto } from './dto/profileDto';
 import { UpdateProfileDto } from './dto/updateProfileDto';
 import { FirebaseService } from '../database/firebase.service';
+import { createWebToken } from '../authentication/createJwtToken';
 
 @Injectable()
 export class ProfilesService {
@@ -14,6 +15,9 @@ export class ProfilesService {
   ) {}
 
   async create(createProfileDto: CreateProfileDto) {
+    if (!createProfileDto.Email || !createProfileDto.Password) {
+      throw new Error('Invalid login or password');
+    }
     let createdProfile: Profile;
     const userProfile = { Roles: ['user'], ...createProfileDto };
     await this.firebaseService
@@ -27,11 +31,14 @@ export class ProfilesService {
           ...userProfile,
         };
       });
-
-    return createdProfile;
+    const token = createWebToken(createdProfile);
+    return { token: token, user: createdProfile };
   }
 
   async login(credentials: UserCredentials) {
+    if (!credentials.Email || !credentials.Password) {
+      throw new Error('Invalid login or password');
+    }
     let profile: Profile = {
       Id: '',
       Email: '',
@@ -45,8 +52,8 @@ export class ProfilesService {
     usersCollectionData.forEach((snapshot) => {
       const user = snapshot.data();
       if (
-        user.Email == credentials.Email &&
-        user.Password == credentials.Password
+        user.Email === credentials.Email &&
+        user.Password === credentials.Password
       ) {
         profile.Id = snapshot.id;
         profile.Email = user.Email;
@@ -54,8 +61,12 @@ export class ProfilesService {
         profile.Roles = user?.Roles;
       }
     });
-
-    return profile;
+    if (profile.Id) {
+      const token = createWebToken(profile);
+      return { token: token, user: profile };
+    } else {
+      throw new Error('User does not exist');
+    }
   }
 
   async getProfile(id: string): Promise<ProfileDto> {
@@ -63,6 +74,9 @@ export class ProfilesService {
       .getFirestore()
       .collection('Users');
     const profileData = (await usersCollection.doc(id).get()).data();
+    if (!profileData) {
+      throw new Error('User does not exist');
+    }
     return {
       Id: id,
       Email: profileData?.Email,
@@ -71,6 +85,7 @@ export class ProfilesService {
   }
 
   async getAllProfilesByEmail(query: string): Promise<ProfileDto[]> {
+    if (!query) return [];
     const snapshot = await this.firebaseService
       .getFirestore()
       .collection('Users')
@@ -90,6 +105,8 @@ export class ProfilesService {
   }
 
   async update(profileDto: UpdateProfileDto) {
+    if (!profileDto.Email || !profileDto.Password)
+      throw new Error('Email and Password are required');
     const { Id, ...restOfProfile } = profileDto;
     const usersCollection = this.firebaseService
       .getFirestore()
@@ -102,19 +119,24 @@ export class ProfilesService {
       });
   }
 
-  async getUserImage(username: string) {
-    let image: string = '';
-    const usersCollection = this.firebaseService
+  async getUserImage(userId: string) {
+    let image: string;
+    const snapshot = await this.firebaseService
       .getFirestore()
-      .collection('Users');
-    await usersCollection.get().then((querySnapshot: any) => {
-      querySnapshot.forEach((user: any) => {
-        const data = user.data();
-        if (data.Email == username) {
-          image = data.ProfileImage;
-        }
-      });
-    });
+      .collection('Users')
+      .doc(userId)
+      .get();
+    const data = snapshot.data();
+    if (!data) throw new Error('User does not exist');
+    image = data?.ProfileImage;
+    // await usersCollection.get().then((querySnapshot) => {
+    //   querySnapshot.forEach((user) => {
+    //     const data = user.data();
+    //     if (data.Email == username) {
+    //       image = data.ProfileImage;
+    //     }
+    //   });
+    // });
     return image;
   }
 

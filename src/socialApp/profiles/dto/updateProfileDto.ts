@@ -15,11 +15,11 @@ export class UpdateProfileDto {
 
   @Column()
   @ApiProperty()
-  @IsOptional()
-  ProfileImage: string;
+  @IsNotEmpty({ message: 'Profile should have Password field!' })
+  Password: string;
 
   @Column()
   @ApiProperty()
   @IsOptional()
-  Roles: string[];
+  ProfileImage: string;
 }

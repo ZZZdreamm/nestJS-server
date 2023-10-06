@@ -17,6 +17,7 @@ $ npm run start
 
 ```bash
 # unit tests
+$ npm run emulator
 $ npm run test
 ```
 
