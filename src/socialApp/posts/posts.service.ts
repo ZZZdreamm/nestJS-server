@@ -145,6 +145,7 @@ export class PostsService {
         TextContent: docData.TextContent,
         AmountOfLikes: docData.AmountOfLikes,
         AmountOfComments: docData.AmountOfComments,
+        AutorId: docData.AutorId,
       };
       return post;
     });

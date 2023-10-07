@@ -1261,6 +1261,9 @@
           },
           "AutorProfileImage": {
             "type": "string"
+          },
+          "AutorId": {
+            "type": "string"
           }
         },
         "required": [
@@ -1271,7 +1274,8 @@
           "TextContent",
           "AmountOfLikes",
           "AmountOfComments",
-          "AutorProfileImage"
+          "AutorProfileImage",
+          "AutorId"
         ]
       },
       "UpdatePostDto": {
