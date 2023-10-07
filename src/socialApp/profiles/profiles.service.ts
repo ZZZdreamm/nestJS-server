@@ -84,14 +84,21 @@ export class ProfilesService {
     };
   }
 
-  async getAllProfilesByEmail(query: string): Promise<ProfileDto[]> {
+  async searchProfilesByEmail(
+    query: string,
+    userId: string,
+  ): Promise<ProfileDto[]> {
     if (!query) return [];
     const snapshot = await this.firebaseService
       .getFirestore()
       .collection('Users')
       .get();
+    // Wanted to use some points system for searching to give more relevant results
+    // but it would be very unefficient for document based database
+    // and it would be too much work to rebuild it to use e.g. SQL database
     let profiles: ProfileDto[] = [];
     snapshot.forEach((shot) => {
+      if (profiles.length === 5) return;
       const user = shot.data();
       if (user.Email.toLowerCase().includes(query.toLowerCase())) {
         profiles.push({

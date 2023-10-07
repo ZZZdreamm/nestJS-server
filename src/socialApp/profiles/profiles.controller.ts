@@ -61,8 +61,11 @@ export class ProfilesController {
     type: ProfileDto,
   })
   @ApiParam({ name: 'query' })
-  getAllProfilesByEmail(@Param('query') query: string): Promise<ProfileDto[]> {
-    return this.profilesService.getAllProfilesByEmail(query);
+  getAllProfilesByEmail(
+    @Param('query') query: string,
+    @Query('userId') userId: string,
+  ): Promise<ProfileDto[]> {
+    return this.profilesService.searchProfilesByEmail(query, userId);
   }
 
   @Patch('/update')
