@@ -182,6 +182,7 @@ export class ProfilesController {
     return this.profilesService.getSentFriendRequests(userId);
   }
 
+  @Public()
   @Get('/wakeUp')
   wakeUp() {
     return 'Waking up...'
