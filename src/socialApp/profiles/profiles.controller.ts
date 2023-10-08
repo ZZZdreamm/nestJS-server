@@ -181,4 +181,9 @@ export class ProfilesController {
   getSentFriendRequests(@Param('userId') userId: string) {
     return this.profilesService.getSentFriendRequests(userId);
   }
+
+  @Get('/wakeUp')
+  wakeUp() {
+    return 'Waking up...'
+  }
 }
