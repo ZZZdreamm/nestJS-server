@@ -19,6 +19,9 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthModule } from './authentication/auth.module';
 import { RolesGuard } from './authorization/roles.guard';
 import { AdminModule } from './admin/admin.module';
+import { ReelsModule } from './reels/reels.module';
+import { ReelsController } from './reels/reels.controller';
+import { ReelsService } from './reels/reels.service';
 
 @Module({
   imports: [
@@ -30,6 +33,7 @@ import { AdminModule } from './admin/admin.module';
     MessagesModule,
     AuthModule,
     AdminModule,
+    ReelsModule,
   ],
   exports: [],
   controllers: [
@@ -37,6 +41,7 @@ import { AdminModule } from './admin/admin.module';
     PostsController,
     CommentsController,
     MessagesController,
+    ReelsController,
   ],
   providers: [
     ProfilesService,
@@ -44,6 +49,7 @@ import { AdminModule } from './admin/admin.module';
     CommentsService,
     MessagesService,
     FirebaseService,
+    ReelsService,
     {
       provide: APP_GUARD,
       useClass: AuthGuard,

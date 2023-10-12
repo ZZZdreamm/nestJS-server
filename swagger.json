@@ -469,6 +469,20 @@
         ]
       }
     },
+    "/profiles/wakeUp": {
+      "get": {
+        "operationId": "ProfilesController_wakeUp",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "profiles"
+        ]
+      }
+    },
     "/posts/all/{previousPostDate}": {
       "get": {
         "operationId": "PostsController_getAll",
@@ -959,6 +973,169 @@
         ]
       }
     },
+    "/reels/create": {
+      "post": {
+        "operationId": "ReelsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReelsCreationDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Create reels",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReelsCreationDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "reels"
+        ]
+      }
+    },
+    "/reels/getReels": {
+      "get": {
+        "operationId": "ReelsController_getReels",
+        "parameters": [
+          {
+            "name": "lastReelsDate",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "amount",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get reels",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReelsCreationDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "reels"
+        ]
+      }
+    },
+    "/reels/getManyUsersReels": {
+      "get": {
+        "operationId": "ReelsController_getManyUsersReels",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Get user reels",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReelsDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "reels"
+        ]
+      }
+    },
+    "/reels/getUserReels": {
+      "get": {
+        "operationId": "ReelsController_getUserReels",
+        "parameters": [
+          {
+            "name": "autorId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get user reels",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReelsDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "reels"
+        ]
+      }
+    },
+    "/reels/getReel/{id}": {
+      "get": {
+        "operationId": "ReelsController_getReel",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get reel",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReelsDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "reels"
+        ]
+      }
+    },
     "/admin": {
       "get": {
         "operationId": "AdminController_hello",
@@ -1371,6 +1548,62 @@
           "MediaFiles",
           "VoiceFile",
           "responseTo"
+        ]
+      },
+      "ReelsCreationDto": {
+        "type": "object",
+        "properties": {
+          "CreationTime": {
+            "type": "number"
+          },
+          "ExpirationTime": {
+            "type": "number"
+          },
+          "AutorId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "CreationTime",
+          "ExpirationTime",
+          "AutorId"
+        ]
+      },
+      "ReelsDto": {
+        "type": "object",
+        "properties": {
+          "Id": {
+            "type": "string"
+          },
+          "MediaFile": {
+            "type": "string"
+          },
+          "CreationTime": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "ExpirationTime": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "AutorId": {
+            "type": "string"
+          },
+          "AutorName": {
+            "type": "string"
+          },
+          "AutorProfileImage": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "Id",
+          "MediaFile",
+          "CreationTime",
+          "ExpirationTime",
+          "AutorId",
+          "AutorName",
+          "AutorProfileImage"
         ]
       }
     }
