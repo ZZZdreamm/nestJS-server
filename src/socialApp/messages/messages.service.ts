@@ -87,7 +87,7 @@ export class MessagesService {
       .startAfter(lastMessageDate || '')
       .limit(amount)
       .get()
-      .then(async (querySnapshot: any) => {
+      .then(async (querySnapshot) => {
         const promises = querySnapshot.docs.map(async (doc: any) => {
           let message = {
             ...doc.data(),
