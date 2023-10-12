@@ -6,7 +6,7 @@ export const EMULATOR_PORT = 8080;
 
 @Injectable()
 export class FirebaseService {
-  private readonly firestore: admin.firestore.Firestore;
+  private readonly app: admin.app.App;
 
   constructor() {
     let appInitilized = false;
@@ -19,27 +19,27 @@ export class FirebaseService {
       if (process.env.NODE_ENV === 'test') {
         process.env['FIRESTORE_EMULATOR_HOST'] = `localhost:${EMULATOR_PORT}`;
       }
-      this.firestore = admin
-        .initializeApp(
-          {
-            credential: admin.credential.cert({
-              projectId: process.env.SOCIALAPP_PROJECT_ID,
-              clientEmail: process.env.SOCIALAPP_CLIENT_EMAIL,
-              privateKey: process.env.SOCIALAPP_PRIVATE_KEY.replace(
-                /\\n/g,
-                '\n',
-              ),
-            }),
-          },
-          'socialApp',
-        )
-        .firestore();
+      this.app = admin.initializeApp(
+        {
+          credential: admin.credential.cert({
+            projectId: process.env.SOCIALAPP_PROJECT_ID,
+            clientEmail: process.env.SOCIALAPP_CLIENT_EMAIL,
+            privateKey: process.env.SOCIALAPP_PRIVATE_KEY.replace(/\\n/g, '\n'),
+          }),
+          storageBucket: 'facebugserver.appspot.com',
+        },
+        'socialApp',
+      );
     } else {
-      this.firestore = admin.app('socialApp').firestore();
+      this.app = admin.app('socialApp');
     }
   }
 
   getFirestore() {
-    return this.firestore;
+    return this.app.firestore();
+  }
+
+  getStorage() {
+    return this.app.storage();
   }
 }
