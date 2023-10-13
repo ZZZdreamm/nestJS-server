@@ -469,6 +469,20 @@
         ]
       }
     },
+    "/profiles/wakeUp": {
+      "get": {
+        "operationId": "ProfilesController_wakeUp",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "profiles"
+        ]
+      }
+    },
     "/posts/all/{previousPostDate}": {
       "get": {
         "operationId": "PostsController_getAll",
