@@ -4,12 +4,20 @@ import { CacarrotAppModule } from './cacarrot/cacarrotApp.module';
 import { NewsAppModule } from './hotNews/news.module';
 import { RequestPrioritizationService } from './requestsMiddleware/requestPrioritization.service';
 import { RequestPrioritizationMiddleware } from './requestsMiddleware/requestPrioritization.middleware';
+import { APP_FILTER } from '@nestjs/core';
+import { AllExceptionsFilter } from './filters/ExceptionFilter';
 
 @Module({
   imports: [SocialAppModule, CacarrotAppModule, NewsAppModule],
   exports: [],
   controllers: [],
-  providers: [RequestPrioritizationService],
+  providers: [
+    RequestPrioritizationService,
+    {
+      provide: APP_FILTER,
+      useClass: AllExceptionsFilter,
+    },
+  ],
 })
 export class AppModule implements NestModule {
   constructor(
