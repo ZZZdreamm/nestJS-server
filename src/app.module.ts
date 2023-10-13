@@ -13,10 +13,10 @@ import { AllExceptionsFilter } from './filters/ExceptionFilter';
   controllers: [],
   providers: [
     RequestPrioritizationService,
-    {
-      provide: APP_FILTER,
-      useClass: AllExceptionsFilter,
-    },
+    // {
+    //   provide: APP_FILTER,
+    //   useClass: AllExceptionsFilter,
+    // },
   ],
 })
 export class AppModule implements NestModule {
