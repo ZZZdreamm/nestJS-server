@@ -18,6 +18,10 @@ export class ReelsDto implements ReelsDtoAttributes {
 
   @Column()
   @ApiProperty()
+  Name: string;
+
+  @Column()
+  @ApiProperty()
   MediaFile: string;
 
   @Column()

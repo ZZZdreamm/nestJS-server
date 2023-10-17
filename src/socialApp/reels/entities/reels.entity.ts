@@ -4,6 +4,7 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 export interface ReelsAttributes {
   Id: string;
+  Name: string;
   MediaFile: string;
   CreationTime: number;
   ExpirationTime: number;
@@ -15,6 +16,10 @@ export class Reels implements ReelsAttributes {
   @PrimaryGeneratedColumn()
   @ApiProperty()
   Id: string;
+
+  @Column()
+  @ApiProperty()
+  Name: string;
 
   @Column()
   @ApiProperty()

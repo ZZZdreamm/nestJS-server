@@ -4,13 +4,13 @@ import { ReelsAttributes } from '../entities/reels.entity';
 import { IsNotEmpty } from 'class-validator';
 
 export interface ReelsCreationDtoAttributes
-  extends Omit<ReelsAttributes, 'Id' | "MediaFile"> {}
+  extends Omit<ReelsAttributes, 'Id' | 'MediaFile'> {}
 
 export class ReelsCreationDto implements ReelsCreationDtoAttributes {
-//   @Column()
-//   @ApiProperty()
-//   @IsNotEmpty({ message: 'Reels should have MediaFile field!' })
-//   MediaFile: File;
+  @Column()
+  @ApiProperty()
+  @IsNotEmpty({ message: 'Reels should have Name field!' })
+  Name: string;
 
   @Column()
   @ApiProperty()

@@ -40,6 +40,7 @@ export class ReelsService {
     );
     reels = {
       Id: firebaseDocument.id,
+      Name: reelsCreationDto.Name,
       AutorId: autor.Id,
       AutorName: autor.Email,
       AutorProfileImage: autor.ProfileImage,
@@ -91,7 +92,7 @@ export class ReelsService {
       usersToReels[autorId] = reels;
     });
     const usersToReels = await Promise.all(promises);
-    console.log(usersToReels)
+    console.log(usersToReels);
     return usersToReels;
   }
 

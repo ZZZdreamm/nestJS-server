@@ -1553,6 +1553,9 @@
       "ReelsCreationDto": {
         "type": "object",
         "properties": {
+          "Name": {
+            "type": "string"
+          },
           "CreationTime": {
             "type": "number"
           },
@@ -1564,6 +1567,7 @@
           }
         },
         "required": [
+          "Name",
           "CreationTime",
           "ExpirationTime",
           "AutorId"
@@ -1573,6 +1577,9 @@
         "type": "object",
         "properties": {
           "Id": {
+            "type": "string"
+          },
+          "Name": {
             "type": "string"
           },
           "MediaFile": {
@@ -1598,6 +1605,7 @@
         },
         "required": [
           "Id",
+          "Name",
           "MediaFile",
           "CreationTime",
           "ExpirationTime",
