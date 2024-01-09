@@ -86,7 +86,7 @@ export class ProfilesService {
 
   async searchProfilesByEmail(
     query: string,
-    userId: string,
+    userId: string = '',
   ): Promise<ProfileDto[]> {
     if (!query) return [];
     const snapshot = await this.firebaseService
@@ -126,18 +126,22 @@ export class ProfilesService {
       });
   }
 
-  async getUserImage(username: string) {
-    let image: string;
+  async getUserImage(id: string) {
+    let image: string = null;
     const usersCollection = await this.firebaseService
       .getFirestore()
       .collection('Users');
+
     await usersCollection.get().then((querySnapshot) => {
       querySnapshot.forEach((user) => {
         const data = user.data();
-        if (data.Email == username) {
+        if (data.Id == id) {
           image = data.ProfileImage;
         }
       });
+      if (image === null) {
+        throw new Error('Image does not exist');
+      }
     });
     return image;
   }

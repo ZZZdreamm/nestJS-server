@@ -6,7 +6,7 @@ import { FirebaseService } from '../../../database/firebase.service';
 import { seedProfiles } from '../mocks/seedProfiles';
 import { allProfilesWithMark } from '../mocks/mockedProfiles';
 
-describe('Profiles service -> getAllProfilesByEmail', () => {
+describe('Profiles service -> searchProfilesByEmail', () => {
   let profilesService: ProfilesService;
   let module: TestingModule;
   let testEnv: RulesTestEnvironment;
@@ -24,18 +24,18 @@ describe('Profiles service -> getAllProfilesByEmail', () => {
   });
 
   it('Get all profiles by email', async () => {
-    const result = await profilesService.getAllProfilesByEmail('mark');
+    const result = await profilesService.searchProfilesByEmail('mark');
     expect(result).toEqual(allProfilesWithMark);
     expect(result.length).toEqual(4);
   });
 
   it('There is no profile with given email', async () => {
-    const result = await profilesService.getAllProfilesByEmail('emptyArray');
+    const result = await profilesService.searchProfilesByEmail('emptyArray');
     expect(result).toEqual([]);
   });
 
   it('Empty email was given', async () => {
-    const result = await profilesService.getAllProfilesByEmail('');
+    const result = await profilesService.searchProfilesByEmail('');
     expect(result).toEqual([]);
   });
 });
