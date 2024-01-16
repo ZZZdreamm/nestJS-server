@@ -34,7 +34,7 @@ describe('Profiles service -> getUserImage', () => {
   });
 
   it('Get user image with invalid id', async () => {
-    await expect(profilesService.getUserImage('invalid id')).rejects.toThrow();
+    await expect(profilesService.getUserImage('invalid id')).toBeNull();
   });
 
   it('Get image that doesnt exist', async () => {

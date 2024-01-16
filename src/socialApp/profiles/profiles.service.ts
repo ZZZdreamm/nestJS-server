@@ -139,9 +139,7 @@ export class ProfilesService {
           image = data.ProfileImage;
         }
       });
-      if (image === null) {
-        throw new Error('Image does not exist');
-      }
+
     });
     return image;
   }
