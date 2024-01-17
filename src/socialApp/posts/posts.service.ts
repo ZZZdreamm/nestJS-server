@@ -41,7 +41,7 @@ export class PostsService {
     await query.get().then(async (querySnapshot: any) => {
       const promises = querySnapshot.docs.map(async (doc) => {
         const autorImage = await this.profilesService.getUserImage(
-          doc.data().AutorName,
+          doc.data().Id,
         );
 
         let post = {
