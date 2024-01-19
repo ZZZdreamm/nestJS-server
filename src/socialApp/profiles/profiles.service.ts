@@ -135,7 +135,7 @@ export class ProfilesService {
     await usersCollection.get().then((querySnapshot) => {
       querySnapshot.forEach((user) => {
         const data = user.data();
-        if (data.Id == id) {
+        if (data.Id === id) {
           image = data.ProfileImage;
         }
       });

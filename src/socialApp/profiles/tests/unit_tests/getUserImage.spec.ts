@@ -8,9 +8,11 @@ import {
 import { FirebaseService } from '../../../database/firebase.service';
 import { seedProfiles } from '../mocks/seedProfiles';
 import { allProfilesWithMark } from '../mocks/mockedProfiles';
+import { PostsService } from 'src/socialApp/posts/posts.service';
 
 describe('Profiles service -> getUserImage', () => {
   let profilesService: ProfilesService;
+  let postsService: PostsService;
   let module: TestingModule;
   let testEnv: RulesTestEnvironment;
 
@@ -18,6 +20,7 @@ describe('Profiles service -> getUserImage', () => {
     testEnv = await createTestEnv();
     module = await getTestingModule([ProfilesService, FirebaseService]);
     profilesService = module.get<ProfilesService>(ProfilesService);
+    postsService = module.get<PostsService>(PostsService);
     await seedProfiles();
   });
 
@@ -44,4 +47,16 @@ describe('Profiles service -> getUserImage', () => {
 
     expect(result).toBeUndefined();
   });
+
+  // it('Get user image with id from post', async () => {
+  //   const post = await postsService.create({
+  //     AutorId: allProfilesWithMark[0].Id,
+  //     Content: 'test post',
+  //   });
+
+  //   const result = await profilesService.getUserImage(post.AutorId);
+
+  //   expect(result).toEqual(allProfilesWithMark[0].ProfileImage);
+  // });
+
 });

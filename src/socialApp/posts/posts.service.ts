@@ -24,7 +24,7 @@ export class PostsService {
       .getFirestore()
       .collection('Posts');
     const newPost = await postsCollection.add(fullPost);
-    const autorImage = await this.profilesService.getUserImage(post.AutorName);
+    const autorImage = await this.profilesService.getUserImage(post.AutorId);
     return { Id: newPost.id, AutorProfileImage: autorImage, ...fullPost };
   }
 
@@ -40,12 +40,13 @@ export class PostsService {
     let posts: PostDto[] = [];
     await query.get().then(async (querySnapshot: any) => {
       const promises = querySnapshot.docs.map(async (doc) => {
+        const data = doc.data();
         const autorImage = await this.profilesService.getUserImage(
-          doc.data().AutorId,
+          data.AutorId,
         );
 
         let post = {
-          ...doc.data(),
+          ...data,
           Id: doc.id,
           AutorProfileImage: autorImage || '',
         };
